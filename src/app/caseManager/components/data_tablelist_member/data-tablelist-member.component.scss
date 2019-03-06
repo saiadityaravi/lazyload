@@ -1,0 +1,309 @@
+@import "../../../../sass_styles/_mixins.scss";
+.title {
+    position: relative;
+    margin-top: 0px !important; 
+    width: auto;
+    height: auto;
+    background-color: white;
+    font-weight: 600;
+    padding: .6em;
+    padding-right: 1.4em;
+    margin-bottom: 0px;
+    line-height: 1em;
+    border-top: 3px solid #3c8dbc;
+}
+
+.title1 {
+    position: relative;
+    width: auto;
+    height: auto;
+    background-color: white;
+    font-weight: 600;
+    padding: .6em;
+    padding-right: 1.4em;
+    margin-bottom: 0px;
+    line-height: 1em;
+    z-index: 1;
+    border-top: 3px solid #3c8dbc;
+}
+
+h2 {
+    color: gray !important;
+    font-size: 16px !important;
+}
+
+.title:after {
+    position: absolute;
+    top: 0.1em;
+    right: -.8em;
+    z-index: 1;
+    display: block;
+    width: 1.8em;
+    height: 2.1em;
+    background-color: white;
+    border-right: 0 solid rgba(0, 0, 0, 0.12);
+    content: " ";
+    -webkit-transform: skewX(30deg);
+    -moz-transform: skewX(30deg);
+    -ms-transform: skewX(30deg);
+    -o-transform: skewX(30deg);
+    transform: skewX(30deg);
+}
+
+.basic-container {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.mat-grid-tile .mat-figure {
+    align-items: center !important;
+    justify-content: left !important;
+}
+
+.member-row {
+    position: relative;
+}
+
+.member-row:not(.expanded) {
+    cursor: pointer;
+}
+
+.member-row:not(.expanded):hover {
+    background: inherit;
+}
+
+.member-row.expanded {
+    border-bottom-color: transparent;
+}
+
+.material-icons {
+    font-weight: 800 !important;
+    font-size: 15px !important;
+}
+
+.mat-paginator {
+    background: inherit !important;
+}
+
+.mat-input-element {
+    color: black !important;
+}
+
+.rowBottom {
+    top: -1.2em !important;
+    position: relative;
+}
+
+.iconsrowBottom {
+    bottom: -.3em !important;
+    position: relative;
+    z-index: 10;
+}
+
+.imgbackground {
+    width: 2em;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    height: 25px;
+    position: relative;
+}
+
+.imgbackground:hover {
+    background: gray;
+    cursor: pointer;
+}
+
+.overLayForm {
+    background: white;
+    position: relative;
+    top: 9.5em;
+    padding: 2em;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    box-shadow: 1px 2px 10px black;
+    color: black;
+}
+
+.quickSearchClass {
+    bottom: .25em !important;
+    position: relative;
+}
+
+.quickSearchIcon {
+    position: relative !important;
+    bottom: -.5em !important;
+}
+
+.matbutton {
+    min-width: 0px !important;
+    line-height: 0px !important;
+    padding: 0PX !important;
+    border-radius: 50% !important;
+}
+
+.filterdSearchDiv {
+    position: relative;
+    right: -1.5em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 90% !important;
+    font-style: italic;
+    font-size: 14px;
+    color: #777;
+}
+
+.my-tooltip {
+    max-width: 500px !important;
+    word-wrap: break-word !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    font-size: 13px !important;
+}
+
+.displayBlock {
+    display: block !important;
+}
+.mat-column-expand {
+    flex: 0 0 1vw !important;
+    position: relative;
+    top: .75vh;
+}
+.mat-column-memberId {
+    flex: 0 0 7vw !important;
+}
+
+.mat-column-address {
+    flex: 0 0 14vw !important;
+    text-align: left;
+    justify-content: left !important;
+}
+
+.mat-column-Status {
+    flex: 0 0 6vw !important;
+    text-align: center !important;
+}
+.mat-column-eligibilityStatus{
+    flex: 0 0 6vw !important;
+    text-align: center !important;
+}
+.mat-column-gender {
+    flex: 0 0 5vw !important;
+    text-align: center;
+}
+
+.mat-column-Timezone {
+    flex: 0 0 7vw !important;
+}
+
+.mat-column-Language {
+    flex: 0 0 10vw !important;
+    justify-content: left !important;
+}
+
+.mat-column-PhoneNumber {
+    flex: 0 0 10vw !important;
+}
+
+.mat-column-Ethnicity {
+    flex: 0 0 6vw !important;
+}
+
+.mat-column-firstName {
+    flex: 0 0 10vw !important;
+    text-align: left;
+    float: left;
+    justify-content: left !important;
+}
+
+.backroundWhite {
+    background: white;
+}
+@media (min-width: 768px)
+{
+.dl-horizontal dt {
+    float: left;
+    width: 280px;
+    overflow: hidden;
+    clear: left;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.dl-horizontal dd {
+    margin-left: 300px;
+}
+}
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+    .displayIE {
+        display: table-footer-group !important;
+    }
+    .paddingRow1 {
+        padding: 10px 30px 0px 0px !important;
+    }
+    .paddingRow2 {
+        padding: 3% !important;
+    }
+    .ieclass {
+        top: 10.5em !important;
+        position: relative !important;
+    }
+}
+
+.mat-header-row {
+    position: sticky !important;
+    top: 0 !important;
+    background: white !important;
+    z-index: 88;
+}
+
+.tableheight {
+    max-height: 60vh !important;
+    overflow-y: auto !important;
+}
+
+.rowheight {
+    position: relative !important;
+    background: inherit !important;
+    font-size: 14px !important;
+}
+
+.rowMinHeight {
+    min-height: calc(60vh - 40px) !important;
+}
+
+::-webkit-scrollbar {
+    display: block;
+}
+
+
+.textColor {
+    color: black !important;
+}
+
+.filterClose {
+    width: 85% !important;
+    cursor: pointer !important;
+}
+
+.lableWidth {
+    width: 100% !important;
+}
+
+.tableHeight {
+    max-height: calc(92vh - 156px) !important;
+    overflow: auto !important;
+}
+
+.expandedRowHeading {
+    font-weight: 600 !important;
+}
+
+.marginLeft {
+    margin-left: 2% !important
+}
+
+.bottomPadding {
+    padding-bottom: 25px !important;
+}

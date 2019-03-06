@@ -1,0 +1,47 @@
+<div [class]="theme">
+    <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner color="accent" *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+    <mat-card class="matPadding matcardbackground">
+        <div [class]="theme">
+            <mat-toolbar color="accent">
+                <mat-toolbar-row>
+                    <div class="col-md-11 textColor">
+                        <span>Add {{role}}</span>
+                    </div>
+                    <div class="col-md-1 pointerCursor">
+                        <mat-icon (click)=close()>close</mat-icon>
+                    </div>
+                </mat-toolbar-row>
+            </mat-toolbar>
+            <mat-card-content>
+                <form [formGroup]="searchAlais">
+                    <div id="backgroundColor" class="row no-margin-left no-margin-right matMargin">
+                        <div class="col-md-3 no-padding-left no-padding-right">
+                            <mat-form-field disableRipple="true" floatLabel="always" class="labelWidth">
+                                <input matInput placeholder="User Name" formControlName="alias">
+                                <button mat-button matToolTip="Search for member" matSuffix mat-icon-button aria-label="Search"
+                                    (click)="searchAlias()">
+                                    <mat-icon>search</mat-icon>
+                                </button>
+
+                                <mat-error *ngIf="searchAlais.controls.alias.invalid">{{getErrorMessagealias()}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+            </mat-card-content>
+            <div id="backgroundColor" class="addDiv">
+                <app-phonepal-profile></app-phonepal-profile>
+            </div>
+            <div class="row paddingButtons">
+                <div class="col-md-6 text-center">
+                    <button mat-raised-button (click)="close()">Cancel</button>
+                </div>
+                <div class="col-md-6 text-center">
+                    <button mat-raised-button color="accent" (click)="add()">Add</button>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>

@@ -1,0 +1,451 @@
+<section class="box" [formGroup]="group">
+    <header class="panel_header">
+        <h2 class="title pull-left">Interaction Outcome</h2>
+        <div class=" search_criteria pull-left">
+            <i class="">Member is critical</i>
+            <label class="margin-r-0" *ngIf="isreadOnly">
+                <mat-checkbox [disabled]="isreadOnly" [ngModel]="paramObject.redFlag == true ? true : false"
+                    formControlName="chkIsCritical"></mat-checkbox>
+            </label>
+            <label class="margin-r-0" *ngIf="!isreadOnly">
+                <mat-checkbox formControlName="chkIsCritical"></mat-checkbox>
+            </label>
+        </div>
+        <div class=" search_criteria pull-right">
+            <i class="fa fa-question-circle"></i>
+        </div>
+    </header>
+    <div class="content-body padding-bottom-15">
+        <mat-tab-group class="dialog-tab-group">
+            <mat-tab class="dialog-tab" label="Basic Questions">
+                <!-- Main Tab 1 -->
+                <div  class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-3 form-select-label">Lonliness</div>
+                    <div class="col-md-9 col-sm-9 col-xs-9">
+                        <div class="form-group form-select">
+                            <mat-form-field>
+                                <mat-select placeholder="" [disabled]="isreadOnly" formControlName="loneliness" class="form-control no-border">
+                                    <mat-option *ngFor="let cboData of arrayLoneliness" [value]="cboData.value">
+                                    {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div  class="row" *ngIf="role=='ROLE_phonepal'">
+                    <div class="col-md-3 col-sm-3 col-xs-3 form-select-label">Socialization</div>
+                    <div class="col-md-9 col-sm-9 col-xs-9">
+                        <div class="form-group form-select">
+                            <mat-form-field>
+                                <mat-select  placeholder="" [disabled]="isreadOnly" formControlName="socialization" class="form-control no-border">
+                                    <mat-option *ngFor="let cboData of arraySocialization" [value]="cboData.value">
+                                    {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div  class="row" *ngIf="role=='ROLE_phonepal'">
+                    <div class="col-md-3 col-sm-3 col-xs-3 form-select-label">Mood</div>
+                    <div class="col-md-9 col-sm-9 col-xs-9">
+                        <div class="form-group form-select">
+                            <mat-form-field>
+                                    <mat-select placeholder="" [disabled]="isreadOnly" formControlName="mood" class="form-control no-border">
+                                        <mat-option *ngFor="let cboData of arrayMood" [value]="cboData.value">
+                                        {{cboData.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div  class="row" *ngIf="role=='ROLE_phonepal'">
+                    <div class="col-md-3 col-sm-3 col-xs-3 form-select-label">
+                        <span class="label-pysical-activity">Physical Activity</span>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-9">
+                        <div class="form-group form-select">
+                            <mat-form-field>
+                                    <mat-select placeholder="" [disabled]="isreadOnly" formControlName="physicalActivityFrequency" class="form-control no-border">
+                                        <mat-option *ngFor="let cboData of arrayPhysicalActivityFrequency" [value]="cboData.value">
+                                        {{cboData.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="role=='ROLE_connector'" class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-3 form-select-label">Isolation Score</div>
+                    <div class="col-md-9 col-sm-9 col-xs-9">
+                        <div class="form-group form-select">
+                            <mat-form-field>
+                                <mat-select placeholder="" [disabled]="isreadOnly" formControlName="isolationScore" class="form-control no-border">
+                                    <mat-option *ngFor="let cboData of arrayIsolationScore" [value]="cboData.value">
+                                    {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="role=='ROLE_connector'" class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-3 form-select-label risk-stratification">Risk Stratification</div>
+                    <div class="col-md-9 col-sm-9 col-xs-9">
+                        <div class="form-group form-select">
+                            <mat-form-field>
+                                <mat-select placeholder="" [disabled]="isreadOnly" formControlName="riskStratification" class="form-control no-border">
+                                    <mat-option *ngFor="let cboData of arrayRiskstratification" [value]="cboData.value">
+                                    {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>                            
+                        </div>
+                    </div>
+                </div>
+                <!-- Main Tab 1 -->
+            </mat-tab>
+            <mat-tab class="dialog-tab" label="Flags" *ngIf="role=='ROLE_connector'">
+                <!-- Flags Tab -->
+                <mat-tab-group class="dialog-sub-tab-group">
+                    <mat-tab *ngIf="role=='ROLE_connector'" label="Barriers">
+                        <!-- Flags - Barriers (Sub Tab) -->
+                        <!-- ReadOnly -->
+                        <div class="row" *ngIf="isreadOnly">
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="finance" [ngModel]="interactionOutcome.modelFinance" [disabled]="isreadOnly">Finance</mat-checkbox><br />
+                                <mat-checkbox formControlName="depression" [ngModel]="interactionOutcome.modelDepression"
+                                    [disabled]="isreadOnly">Depression</mat-checkbox><br />
+                                <mat-checkbox formControlName="grief" [ngModel]="interactionOutcome.modelGrief"
+                                    [disabled]="isreadOnly">Grief/Loss</mat-checkbox><br />
+                            </div>
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="pain" [ngModel]="interactionOutcome.modelPain"
+                                    [disabled]="isreadOnly">Pain</mat-checkbox><br />
+                                <mat-checkbox formControlName="transportation" [ngModel]="interactionOutcome.modelBarrierTransport"
+                                    [disabled]="isreadOnly">Transportation</mat-checkbox><br />
+                                <mat-checkbox (change)="toggleCheckBox('isOtherBarrierChecked', $event)"
+                                    formControlName="otherBarriers" [ngModel]="interactionOutcome.modelOtherBarriers"
+                                    [disabled]="isreadOnly">Other</mat-checkbox>
+                                <span *ngIf="isOtherBarrierChecked || (interactionOutcome.modelOtherBarriers)">
+                                    <input matInput class="textFieldToggle" [placeholder]="interactionOutcome.vBarrierTextField"
+                                        formControlName="otherBarrierText">
+                                </span><br />
+                            </div>
+                        </div>
+                        <!-- Editable -->
+                        <div class="row" *ngIf="!isreadOnly">
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="finance" [ngModel]="false">Finance</mat-checkbox><br />
+                                <mat-checkbox formControlName="depression" [ngModel]="false">Depression</mat-checkbox><br />
+                                <mat-checkbox formControlName="grief" [ngModel]="false">Grief/Loss</mat-checkbox><br />
+                            </div>
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="pain" [ngModel]="false">Pain</mat-checkbox><br />
+                                <mat-checkbox formControlName="transportation" [ngModel]="false">Transportation</mat-checkbox><br />
+                                <mat-checkbox (change)="toggleCheckBox('isOtherBarrierChecked', $event)"
+                                    formControlName="otherBarriers" [ngModel]="false">Other</mat-checkbox>
+                                <span *ngIf="isOtherBarrierChecked">
+                                    <input matInput class="textFieldToggle" placeholder="Other" formControlName="otherBarrierText">
+                                    <mat-error *ngIf="group.controls.otherBarrierText.invalid"><span class="error">*
+                                            Other text is required</span></mat-error>
+                                </span><br />
+                            </div>
+                        </div>
+                        <!-- Flags - Barriers (Sub Tab) -->
+                    </mat-tab>
+                    <mat-tab  label="Physical Activity">
+                        <!-- Flags - Physical Activity (Sub Tab) -->
+                        <!-- ReadOnly -->
+                        <div class="row" *ngIf="isreadOnly">
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="gym" [ngModel]="interactionOutcome.modelGymnasium"
+                                    [disabled]="isreadOnly">Gym</mat-checkbox><br />
+                                <mat-checkbox formControlName="jogging" [ngModel]="interactionOutcome.modelJogging"
+                                    [disabled]="isreadOnly">Jogging</mat-checkbox>
+                                <mat-checkbox formControlName="niftyAfterFifty" [ngModel]="interactionOutcome.modelNifty"
+                                    [disabled]="isreadOnly">Nifty After Fifty</mat-checkbox><br />
+                            </div>
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="walking" [ngModel]="interactionOutcome.modelWalking"
+                                    [disabled]="isreadOnly">Walking</mat-checkbox><br />
+                                <mat-checkbox (change)="toggleCheckBox('isOtherActivityChecked', $event)"
+                                    formControlName="otherActivities" [ngModel]="interactionOutcome.modelOtherActivities"
+                                    [disabled]="isreadOnly">Other</mat-checkbox>
+                                <span *ngIf="isOtherActivityChecked || (interactionOutcome.modelOtherActivities)">
+                                    <input matInput class="textFieldToggle" [placeholder]="interactionOutcome.vPhysicalTextField"
+                                        formControlName="otherActivityText">
+                                </span><br />
+                            </div>
+                        </div>
+                        <!-- Editable -->
+                        <div class="row" *ngIf="!isreadOnly">
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="gym" [ngModel]="false">Gym</mat-checkbox><br />
+                                <mat-checkbox formControlName="jogging" [ngModel]="false">Jogging</mat-checkbox>
+                                <mat-checkbox formControlName="niftyAfterFifty" [ngModel]="false">Nifty After Fifty</mat-checkbox><br />
+                            </div>
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="walking" [ngModel]="false">Walking</mat-checkbox><br />
+                                <mat-checkbox (change)="toggleCheckBox('isOtherActivityChecked', $event)"
+                                    formControlName="otherActivities" [ngModel]="false">Other</mat-checkbox>
+                                <span *ngIf="isOtherActivityChecked">
+                                    <input matInput class="textFieldToggle" placeholder="Other" formControlName="otherActivityText">
+                                    <mat-error *ngIf="group.controls.otherActivityText.invalid"><span class="error">*
+                                            Other text is required</span></mat-error>
+                                </span><br />
+                            </div>
+                        </div>
+                        <!-- Flags - Physical Activity (Sub Tab) -->
+                    </mat-tab>
+                    <mat-tab *ngIf="role=='ROLE_connector'" label="Anthem programs">
+                        <!-- Flags - Anthem programs (Sub Tab) -->
+                        <!-- ReadOnly -->
+                        <div class="row" *ngIf="isreadOnly">
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="medicationIssues" [ngModel]="interactionOutcome.modelMedication"
+                                    [disabled]="isreadOnly">Medication Issues</mat-checkbox><br />
+                                <mat-checkbox formControlName="starHeidis" [ngModel]="interactionOutcome.modelStarHeidis"
+                                    [disabled]="isreadOnly">Star/HEIDIS</mat-checkbox><br />
+                                <mat-checkbox formControlName="pcp" [ngModel]="interactionOutcome.modelPCP"
+                                    [disabled]="isreadOnly">PCP</mat-checkbox><br />
+                                <mat-checkbox formControlName="criticalCare" [ngModel]="interactionOutcome.modelCriticalCare"
+                                    [disabled]="isreadOnly">Critical Care Connection</mat-checkbox><br />
+                            </div>
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="memberServices" [ngModel]="interactionOutcome.modelMemberServices"
+                                    [disabled]="isreadOnly">Member Services</mat-checkbox><br />
+                                <mat-checkbox formControlName="behaviorHealth" [ngModel]="interactionOutcome.modelBehaviorHealth"
+                                    [disabled]="isreadOnly">Behavior Health</mat-checkbox><br />
+                                <mat-checkbox formControlName="myAdvocate" [ngModel]="interactionOutcome.modelMyAdvocate"
+                                    [disabled]="isreadOnly">My Advocate</mat-checkbox><br />
+                                <mat-checkbox (change)="toggleCheckBox('isOtherProgramChecked', $event)"
+                                    formControlName="otherPrograms" [ngModel]="interactionOutcome.modelOtherPrograms"
+                                    [disabled]="isreadOnly">Other</mat-checkbox>
+                                <span *ngIf="isOtherProgramChecked || (interactionOutcome.modelOtherPrograms)">
+                                    <input matInput class="textFieldToggle" [placeholder]="interactionOutcome.vProgramsTextField"
+                                        formControlName="otherProgramText">
+                                </span><br />
+                            </div>
+                        </div>
+                        <!-- Editable -->
+                        <div class="row" *ngIf="!isreadOnly">
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="medicationIssues" [ngModel]="false">Medication Issues</mat-checkbox><br />
+                                <mat-checkbox formControlName="starHeidis" [ngModel]="false">Star/HEIDIS</mat-checkbox><br />
+                                <mat-checkbox formControlName="pcp" [ngModel]="false">PCP</mat-checkbox><br />
+                                <mat-checkbox formControlName="criticalCare" [ngModel]="false">Critical Care Connection</mat-checkbox><br />
+                            </div>
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="memberServices" [ngModel]="false">Member Services</mat-checkbox><br />
+                                <mat-checkbox formControlName="behaviorHealth" [ngModel]="false">Behavior Health</mat-checkbox><br />
+                                <mat-checkbox formControlName="myAdvocate" [ngModel]="false">My Advocate</mat-checkbox><br />
+                                <mat-checkbox (change)="toggleCheckBox('isOtherProgramChecked', $event)"
+                                    formControlName="otherPrograms" [ngModel]="false">Other</mat-checkbox>
+                                <span *ngIf="isOtherProgramChecked">
+                                    <input matInput class="textFieldToggle" placeholder="Other" formControlName="otherProgramText">
+                                    <mat-error *ngIf="group.controls.otherProgramText.invalid"><span class="error">*
+                                            Other text is required</span></mat-error>
+                                </span><br />
+                            </div>
+                        </div>
+                        <!-- Flags - Anthem programs (Sub Tab) -->
+                    </mat-tab>
+                    <mat-tab *ngIf="role=='ROLE_connector'" label="Care Coordination">
+                        <!-- Flags - Care Coordination (Sub Tab) -->
+                        <!-- ReadOnly -->
+                        <div class="row" *ngIf="isreadOnly">
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="carePCP" [ngModel]="interactionOutcome.modelCarePCP"
+                                    [disabled]="isreadOnly">PCP</mat-checkbox><br />
+                                <mat-checkbox formControlName="caseManager" [ngModel]="interactionOutcome.modelCaseMangerText"
+                                    [disabled]="isreadOnly">Case-Manger Text</mat-checkbox><br />
+                                <mat-checkbox formControlName="contactedReferral" [ngModel]="interactionOutcome.modelContactedReferral"
+                                    [disabled]="isreadOnly">Contacted referral source-text</mat-checkbox><br />
+                            </div>
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="transferredMember" [ngModel]="interactionOutcome.modelTransferredMember"
+                                    [disabled]="isreadOnly">Transferred to Member service</mat-checkbox><br />
+                                <mat-checkbox (change)="toggleCheckBox('isOtherCareChecked', $event)" formControlName="otherCare"
+                                    [ngModel]="interactionOutcome.modelOtherCare" [disabled]="isreadOnly">Other</mat-checkbox>
+                                <span *ngIf="isOtherCareChecked || (interactionOutcome.modelOtherCare)">
+                                    <input matInput class="textFieldToggle" [placeholder]="interactionOutcome.vCareTextField"
+                                        formControlName="otherCareText">
+                                </span><br />
+                            </div>
+                        </div>
+                        <!-- Editable -->
+                        <div class="row" *ngIf="!isreadOnly">
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="carePCP" [ngModel]="false">PCP</mat-checkbox><br />
+                                <mat-checkbox formControlName="caseManager" [ngModel]="false">Case-Manger Text</mat-checkbox><br />
+                                <mat-checkbox formControlName="contactedReferral" [ngModel]="false">Contacted referral
+                                    source-text</mat-checkbox><br />
+                            </div>
+                            <div class="col-md-5 col-sm-4">
+                                <mat-checkbox formControlName="transferredMember" [ngModel]="false">Transferred
+                                    to Member service</mat-checkbox><br />
+                                <mat-checkbox (change)="toggleCheckBox('isOtherCareChecked', $event)" formControlName="otherCare"
+                                    [ngModel]="false">Other</mat-checkbox>
+                                <span *ngIf="isOtherCareChecked">
+                                    <input matInput class="textFieldToggle" placeholder="Other" formControlName="otherCareText">
+                                    <mat-error *ngIf="group.controls.otherCareText.invalid"><span class="error">* Other
+                                            text is required</span></mat-error>
+                                </span><br />
+                            </div>
+                        </div>
+                        <!-- Flags - Care Coordination (Sub Tab) -->
+                    </mat-tab>
+                </mat-tab-group>
+                <!-- Flags Tab -->
+            </mat-tab>
+            <mat-tab *ngIf="role=='ROLE_connector'" class="dialog-tab" label="LS & PHQ">
+                <!-- LS & PHQ -->
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6 form-select-label">LS1 - How often do you feel that you lack
+                        companionship</div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group form-select">
+                            <mat-form-field>
+                                <mat-select placeholder="" [disabled]="isreadOnly" formControlName="LS1LackCompanionship" class="form-control no-border">
+                                    <mat-option *ngFor="let cboData of arrayLS1" [value]="cboData.value">
+                                    {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">LS2 - How often do you feel isolated from others</div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group form-select">
+                            <mat-form-field>
+                                <mat-select placeholder="" [disabled]="isreadOnly" formControlName="LS2FeelIsolated" class="form-control no-border">
+                                    <mat-option *ngFor="let cboData of arrayLS2" [value]="cboData.value">
+                                    {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6 form-select-label">LS3 - How often do you feel left out</div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group form-select">
+                            <mat-form-field>
+                                <mat-select formControlName="LS3HowOften" placeholder="" [disabled]="isreadOnly" class="form-control no-border">
+                                    <mat-option *ngFor="let cboData of arrayLS3" [value]="cboData.value">
+                                    {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">PHQ-2 - Little interest or pleasent in doing things</div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group form-select">
+                            <mat-form-field>
+                                <mat-select placeholder="" [disabled]="isreadOnly" formControlName="phq2LittleInterest" class="form-control no-border">
+                                    <mat-option *ngFor="let cboData of arrayPHQ2_Little" [value]="cboData.value">
+                                    {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6 form-select-label">PHQ-2 - Feeling Down, depressed or
+                        hopeless</div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group form-select">
+                            <mat-form-field>
+                                <mat-select placeholder="" [disabled]="isreadOnly" formControlName="phq2FeelingDown" class="form-control no-border">
+                                    <mat-option *ngFor="let cboData of arrayPHQFeelingdown" [value]="cboData.value">
+                                        {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <!-- LS & PHQ -->
+            </mat-tab>
+            <mat-tab *ngIf="role=='ROLE_connector'" class="dialog-tab" label="Community Resources">
+                <!-- Community Resources -->
+                <!-- ReadOnly -->
+                <div class="row" *ngIf="isreadOnly">
+                    <div class="col-md-5 col-sm-4">
+                        <mat-checkbox formControlName="communityTransportation" [ngModel]="interactionOutcome.modelTransportation"
+                            [disabled]="isreadOnly">Transportation</mat-checkbox><br />
+                        <mat-checkbox formControlName="seniorsCenter" [ngModel]="interactionOutcome.modelSeniorsCenter"
+                            [disabled]="isreadOnly">Seniors Center</mat-checkbox><br />
+                        <mat-checkbox formControlName="homeMaintenance" [ngModel]="interactionOutcome.modelHomeMaintenance"
+                            [disabled]="isreadOnly">Home Maintenance</mat-checkbox><br />
+                        <mat-checkbox formControlName="supportGroups" [ngModel]="interactionOutcome.modelSupportGroups"
+                            [disabled]="isreadOnly">Support Groups</mat-checkbox><br />
+                        <mat-checkbox formControlName="communityNo" [ngModel]="interactionOutcome.modelCommunityNo"
+                            [disabled]="isreadOnly">No</mat-checkbox><br />
+                    </div>
+                    <div class="col-md-5 col-sm-4">
+                        <mat-checkbox formControlName="mealsOnWheels" [ngModel]="interactionOutcome.modelMeals"
+                            [disabled]="isreadOnly">Meals On Wheels</mat-checkbox><br />
+                        <mat-checkbox formControlName="seniorCenterWithoutWalls" [ngModel]="interactionOutcome.modelSeniorCenterWithoutWalls"
+                            [disabled]="isreadOnly">Senior Center Without Walls</mat-checkbox><br />
+                        <mat-checkbox formControlName="housing" [ngModel]="interactionOutcome.modelHousing"
+                            [disabled]="isreadOnly">Housing</mat-checkbox><br />
+                        <mat-checkbox formControlName="communityYes" [ngModel]="interactionOutcome.modelCommunityYes"
+                            [disabled]="isreadOnly">Yes</mat-checkbox><br />
+                        <mat-checkbox (change)="toggleCheckBox('isOtherCommunityChecked', $event)" formControlName="otherCommunity"
+                            [ngModel]="interactionOutcome.modelOtherCommunity" [disabled]="isreadOnly">Other</mat-checkbox>
+                        <span *ngIf="isOtherCommunityChecked || (interactionOutcome.modelOtherCommunity)">
+                            <input matInput class="textFieldToggle" [placeholder]="interactionOutcome.vCommunityTextField" formControlName="otherCommunityText">
+                        </span><br />
+                    </div>
+                </div>
+                <!-- Editable -->
+                <div class="row" *ngIf="!isreadOnly">
+                    <div class="col-md-5 col-sm-4">
+                        <mat-checkbox formControlName="communityTransportation" [ngModel]="false">Transportation</mat-checkbox><br />
+                        <mat-checkbox formControlName="seniorsCenter" [ngModel]="false">Seniors Center</mat-checkbox><br />
+                        <mat-checkbox formControlName="homeMaintenance" [ngModel]="false">Home Maintenance</mat-checkbox><br />
+                        <mat-checkbox formControlName="supportGroups" [ngModel]="false">Support Groups</mat-checkbox><br />
+                        <mat-checkbox formControlName="communityNo" [ngModel]="false">No</mat-checkbox><br />
+                    </div>
+                    <div class="col-md-5 col-sm-4">
+                        <mat-checkbox formControlName="mealsOnWheels" [ngModel]="false">Meals On Wheels</mat-checkbox><br />
+                        <mat-checkbox formControlName="seniorCenterWithoutWalls" [ngModel]="false">Senior Center
+                            Without Walls</mat-checkbox><br />
+                        <mat-checkbox formControlName="housing" [ngModel]="false">Housing</mat-checkbox><br />
+                        <mat-checkbox formControlName="communityYes" [ngModel]="false">Yes</mat-checkbox><br />
+                        <mat-checkbox (change)="toggleCheckBox('isOtherCommunityChecked', $event)" formControlName="otherCommunity"
+                            [ngModel]="false">Other</mat-checkbox>
+                        <span *ngIf="isOtherCommunityChecked">
+                            <input matInput class="textFieldToggle" placeholder="Other" formControlName="otherCommunityText">
+                            <mat-error *ngIf="group.controls.otherCommunityText.invalid"><span class="error">* Other
+                                    text is required</span></mat-error>
+                        </span><br />
+                    </div>
+                </div>
+                <!-- Community Resources -->
+            </mat-tab>
+            <mat-tab class="dialog-tab" label="Notes & Concerns">
+                <!-- Notes & Concerns -->
+                <mat-form-field class="example-full-width">
+                    <textarea formControlName="notesConcerns" [disabled]="isreadOnly" matInput placeholder="Do you have any concerns about the member?">{{paramObject.anyConcern}}</textarea>
+                </mat-form-field><br>
+                <mat-form-field class="example-full-width">
+                    <textarea formControlName="callSummary" [disabled]="isreadOnly" matInput placeholder="Call Summary">{{paramObject.callSummary}}</textarea>
+                </mat-form-field>
+                <!-- Notes & Concerns -->
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</section>

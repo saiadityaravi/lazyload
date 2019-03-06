@@ -1,0 +1,53 @@
+$padding-card-body-y: 0.9375rem !default;
+$padding-card-body-x: 1.875rem !default;
+$border-radius-large: 6px !default;
+$border-radius-base: 3px !default;
+
+$font-size-h4:                 1.125rem !default;
+$gray-color:  #999999 !default;
+$gray-base:              #000 !default;
+$gray-dark:              lighten($gray-base, 20%) !default;   // #333
+$white-color:  #fff !default;
+$black-color: #3C4858 !default;
+
+$black: #000;
+$purple-400: #ab47bc !default;
+$purple-600: #8e24aa !default;
+$cyan-400: #26c6da !default;
+$cyan-600: #00acc1 !default;
+$green-400: #66bb6a !default;
+$green-600: #43a047 !default;
+$orange-400: #ffa726 !default;
+$orange-600: #fb8c00 !default;
+$red-400: #ef5350 !default;
+$red-600: #e53935 !default;
+$pink-400: #ec407a !default;
+$pink-600: #d81b60 !default;
+
+
+$brand-primary:              $purple-400 !default;
+$brand-info:                 $cyan-400 !default;
+$brand-success:              $green-400 !default;
+$brand-warning:              $orange-400 !default;
+$brand-danger:               $red-400 !default;
+$brand-rose:                 $pink-400 !default;
+$brand-inverse:              $black-color !default;
+
+$white-transparent: rgba($white-color, .8);
+$transparent: transparent;
+
+$bmd-shadow-umbra-opacity: 0.2 !default;
+$bmd-shadow-penumbra-opacity: 0.14 !default;
+$bmd-shadow-ambient-opacity: 0.12 !default;
+
+$bmd-shadow-2dp: 0 2px 2px 0 rgba($black, $bmd-shadow-penumbra-opacity),
+  0 3px 1px -2px rgba($black, $bmd-shadow-umbra-opacity),
+  0 1px 5px 0 rgba($black, $bmd-shadow-ambient-opacity);
+
+$bmd-shadow-8dp: 0 8px 10px 1px rgba($black, $bmd-shadow-penumbra-opacity),
+  0 3px 14px 2px rgba($black, $bmd-shadow-ambient-opacity),
+  0 5px 5px -3px rgba($black, $bmd-shadow-umbra-opacity);
+
+$bmd-shadow-8dp: 0 8px 10px 1px rgba($black, $bmd-shadow-penumbra-opacity),
+  0 3px 14px 2px rgba($black, $bmd-shadow-ambient-opacity),
+  0 5px 5px -3px rgba($black, $bmd-shadow-umbra-opacity);

@@ -1,0 +1,15 @@
+@import '~@angular/material/theming';
+
+@mixin member-dialog-theme($theme) {
+    // Extract whichever individual palettes you need from the theme.
+    $primary: map-get($theme, accent);
+    $accent: map-get($theme, primary); // Use mat-color to extract individual colors from a palette as necessary.
+
+    .mat-toolbar{
+        background-color: mat-color($primary);
+    }
+
+    .mat-card{
+        background-color: mat-color($accent);
+    }
+}

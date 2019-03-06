@@ -1,0 +1,50 @@
+.d3-tip {
+    position: absolute;
+    padding: .5rem .75rem;
+    background-color: #000;
+    color: #fff;
+    margin-bottom: -.25rem;
+    font-size: .8125rem;
+    z-index: 1070;
+    border-radius: .1875rem
+}
+
+.d3-tip .d3-tip-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid
+}
+
+.d3-tip.n .d3-tip-arrow {
+    bottom: -.25rem;
+    left: 50%;
+    margin-left: -.25rem;
+    border-width: .25rem .25rem 0;
+    border-top-color: #000
+}
+
+.d3-tip.e .d3-tip-arrow {
+    top: 50%;
+    margin-top: -.25rem;
+    left: -.25rem;
+    border-width: .25rem .25rem .25rem 0;
+    border-right-color: #000
+}
+
+.d3-tip.w .d3-tip-arrow {
+    top: 50%;
+    margin-top: -.25rem;
+    right: -.25rem;
+    border-width: .25rem 0 .25rem .25rem;
+    border-left-color: #000
+}
+
+.d3-tip.s .d3-tip-arrow {
+    top: 0;
+    left: 50%;
+    margin-left: -.25rem;
+    border-width: 0 .25rem .25rem;
+    border-bottom-color: #000
+}

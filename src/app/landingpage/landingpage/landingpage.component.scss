@@ -1,0 +1,100 @@
+@import '~@angular/material/theming';
+@import '../../../sass_styles/_variables.scss';
+.div-height {
+    height: 85vh;
+    z-index: 100;
+    position: relative;
+}
+
+.div-height-footer {
+    height: 20vh;
+}
+
+.mat-toolbar {
+    color: white;
+}
+
+.logo {
+    height: 40px;
+}
+
+.mat-toolbar-height {
+    height: 15vh;
+}
+
+.tool-bar {
+    -webkit-transition: all .15s linear !important;
+    -moz-transition: all .15s linear !important;
+    -o-transition: all .15s linear !important;
+    transition: all .15s linear !important;
+}
+
+.card-row {
+    height: auto;
+    min-height: 60vh;
+    background-color: #e4e2e2;
+}
+
+hr {
+    margin-top: 120px;
+    border-top: 1px solid #e8e8e8;
+}
+
+.copyright {
+    font-size: 1.2rem;
+    color: $dark-grey-blue;
+}
+
+.sub-text {
+    font-size: 1.4rem;
+}
+
+.appTitle {
+    font-size: 4rem;
+}
+
+.marginTop {
+    margin-top: calc(100vh - 90vh) !important;
+}
+
+.shrink-toolbar {
+    max-height: 15vh;
+    position: fixed;
+    background-color: white !important;
+    color: black !important;
+    z-index: 100;
+}
+
+video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+}
+.fixed-width-height {
+    position: relative;
+  }
+  .fixed-width-height video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+  }
+body {
+    color: white !important;
+}
+
+.videoposition{
+    position:static
+}
+
+.marginTopStats{
+    margin-top:1vh
+}
+
+.paddingBottom{
+    padding-bottom: 7vh;
+}

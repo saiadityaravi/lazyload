@@ -1,0 +1,180 @@
+<div class="container-fluid">
+  <div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div [class]="theme">
+    <div class="row">
+      <div class="col-md-12  no-padding-left no-padding-right">
+        <mat-toolbar color="primary" class="tool-bar" [ngClass]="{'shrink-toolbar': shrinkToolbar}">
+          <mat-toolbar-row>
+            <div class="col-md-8 col-xs-6 col-md-offset-1">
+              <span><img class="logo" [src]="shrinkToolbar?imageUrl_dark:imageUrl" alt=""></span>
+            </div>
+            <div class="col-md-3 col-xs-6 text-center">
+              <div *ngIf="isEnrolled; else enroll">
+                <button mat-stroked-button (click)="getAvailabilityAndRoute()">Sign In</button>
+              </div>
+              <ng-template #enroll>
+                <button mat-stroked-button (click)="openDialog()">Become a Phone Pal!</button>
+              </ng-template>
+            </div>
+          </mat-toolbar-row>
+        </mat-toolbar>
+      </div>
+    </div>
+  </div>
+  <div [class]="owntheme">
+    <div class="row">
+      <div class="col-md-12 no-padding-left no-padding-right div-bgcolor text-center">
+        <div class="embed-responsive" style="position:static">
+          <video #themeId controls="controls" autoplay="autoplay" muted="muted" codecs="avc1.4D401E, mp4a.40.2">
+            <source [src]= "videoURL" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div [class]="owntheme">
+    <div class="row no-margin-left no-margin-right">
+      <div class="col-md-12 no-padding-left no-padding-right">
+        <div class="row tool-bar" id="facts-toolbar">
+          <div class="col-md-offset-3 col-xs-4 col-md-2">
+            <div class="row">
+              <div class="col-md-12 text-center marginTopStats" >
+                <h1>{{phonepalCount}}</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 text-center sub-text">
+                Phonepals
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <div class="row">
+              <div class="col-md-12 text-center marginTopStats">
+                <h1>{{callDuration}}</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 text-center sub-text">
+                Minutes connected
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <div class="row">
+              <div class="col-md-12 text-center marginTopStats">
+                <h1>{{memberCount}}</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 text-center sub-text">
+                Engaged Members
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div [class]="theme">
+    <div class="row card-row">
+      <div style="margin:14vh">
+        <div class="col-md-3 col-xs-12 text-center">
+          <mat-card class="example-card">
+            <mat-card-header>
+              <mat-card-title>
+                <h2>card 1</h2>
+              </mat-card-title>
+              <mat-card-subtitle>subtitle</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <p>
+                About card 1
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-md-3 col-xs-12 text-center">
+          <mat-card class="example-card">
+            <mat-card-header>
+              <mat-card-title>
+                <h2>card2</h2>
+              </mat-card-title>
+              <mat-card-subtitle>subtitle</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <p>
+                About card 2
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-md-3 col-xs-12 text-center">
+          <mat-card class="example-card">
+            <mat-card-header>
+              <mat-card-title>
+                <h2>card 3</h2>
+              </mat-card-title>
+              <mat-card-subtitle>subtitle</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <p>
+                About card 3
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-md-3 col-xs-12 text-center">
+          <mat-card class="example-card">
+            <mat-card-header>
+              <mat-card-title color="primary">
+                <h2>card 4</h2>
+              </mat-card-title>
+              <mat-card-subtitle>subtitle</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <p>
+                About card 4
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div [class]="theme">
+    <div class="row" class="paddingBottom">
+      <div class="col-md-12 col-xs-12 no-padding-left no-padding-right">
+        <mat-toolbar class="div-height-footer">
+          <mat-toolbar-row>
+            <div class="col-md-9 copyright">
+              © 2018, {{ domainText }} Health Plan
+            </div>
+            <div class="col-md-1 no-padding-left no-padding-right text-center">
+              <a href={{twitter}} target="_blank"> <img src="../../../assets/images/twitter-box.png"
+                  alt=""> </a>
+            </div>
+            <div class="col-md-1 no-padding-left no-padding-right text-center">
+              <a href={{instagram}} target="_blank"> <img src="../../../assets/images/instagram.png"
+                  alt=""> </a>
+            </div>
+            <div class="col-md-1 no-padding-left no-padding-right text-center">
+              <a href={{facebook}} target="_blank"> <img src="../../../assets/images/facebook-box.png"
+                  alt=""></a>
+            </div>
+            <div class="col-md-1 no-padding-left no-padding-right text-center">
+              <a href={{linkedIn}} target="_blank"> <img src="../../../assets/images/linkedin-box.png"
+                  alt=""></a>
+            </div>
+          </mat-toolbar-row>
+        </mat-toolbar>
+      </div>
+    </div>
+  </div>
+</div>

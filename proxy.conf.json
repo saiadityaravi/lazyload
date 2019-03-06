@@ -1,0 +1,8 @@
+{
+  "/togetherness": {
+    "target": "http://localhost:9102/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

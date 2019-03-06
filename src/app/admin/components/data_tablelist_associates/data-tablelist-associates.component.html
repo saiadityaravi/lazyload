@@ -1,0 +1,235 @@
+<div class="textColor">
+    <div class="textColor">
+        <div class="loading-shade" *ngIf="isLoadingResults">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="left" fxFlexFill fxFlexAlign="baseline">
+            <div fxFlex=170px fxFlexAlign="baseline">
+                <h2 class="title listDisp">
+                    {{role}} List
+                </h2>
+            </div>
+            <div fxFlex="calc(80vw - 650px)" fxLayoutAlign="left" fxFlexAlign="baseline" class="displayBlock">
+                <div [matTooltip]="filteredValue" [matTooltipClass]="'my-tooltip'" *ngIf="filteredValue!=''">
+                    <div class="filterdSearchDiv">
+                        Search Criteria: {{filteredValue}}
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="3%" fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">
+                <div *ngIf="filteredValue!=''">
+                    <div class="filterClose" (click)="clearForm()">
+                        <mat-icon>
+                            close
+                        </mat-icon>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="150px" fxLayoutAlign="start" fxFlexAlign="baseline" class="quickSearchClass">
+                <mat-form-field floatLabel="always" style="width:100%">
+                    <input matInput (keyup)="applyFilter($event.target.value)" matTooltip="Quick search">
+                    <mat-icon matSuffix class="quickSearchIcon">search</mat-icon>
+                </mat-form-field>
+            </div>
+            <div fxFlex=40px fxLayoutAlign="center" fxFlexAlign="baseline" class="rowBottomIE">
+                <div (click)="openDiv(false)">
+                    <div class="imgbackground text-center" [ngClass]="{'backroundWhite': clicked}">
+                        <i class="fa fa-filter"></i>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex=40px fxLayoutAlign="center" fxFlexAlign="baseline" class="rowBottomIE">
+                <div class="iconsrowBottom">
+                    <button (click)="refresh()" class="refreshButton" matTooltip="refresh">
+                        <mat-icon style="cursor:pointer ">refresh</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div fxFlex=40px fxLayoutAlign="center" fxFlexAlign="center" class="rowBottomIE">
+                <div class="iconsrowBottom" (click)="referralDialogue()" [matTooltip]="'Add '+role">
+                    <mat-icon style="cursor:pointer ">
+                        add
+                    </mat-icon>
+                </div>
+            </div>
+            <div fxFlex=435px fxLayoutAlign="flex-end" fxFlex.xs="10%" fxFlexAlign="baseline">
+                <div>
+                    <mat-paginator [length]="length" (page)="onPaginateChange($event)" [pageSizeOptions]="[5, 10, 25]"
+                        [pageSize]="offset" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div>
+
+        <div fxLayout="row" class="rowBottom" fxLayoutAlign="begin center">
+            <div fxFlex=100% class="rowMinHeight">
+                <mat-table #table [dataSource]="dataSource" matSort class="tableHeight">
+                    <!-- Position Column -->
+
+                    <ng-container matColumnDef="firstName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Name
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let user"> {{user.lastName}},{{user.firstName}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="address">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Address
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let user"> {{user.city}}, {{user.state}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="language">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> language
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let user">
+                            <div>
+                                <span *ngFor="let lan of user.language">
+                                    {{lan}}
+                                </span>
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="availabilityStartDt">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Availability
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let user"> {{user.availabilityStartDt | dateformat}} -
+                            {{user.availabilityEndDate | dateformat}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="phoneNumber">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Phone #
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let user"> {{user.phoneNumber | contactFormat }} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="timezone">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Time zone
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let user"> {{user.timezone}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Status
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let user">
+                            <span [ngClass]="{'label-success' :user.status=='Approved', 'label-warning' :user.status=='Pending' || user.status=='Inactive' || user.status=='Time Off', 'label-danger': user.status=='Denied'  }"
+                                class="label">{{user.status}}</span> </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="membersConnected">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Members #
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let user"> {{user.membersConnected}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+                        <mat-cell *matCellDef="let user" (click)="$event.stopPropagation()">
+                            <div>
+                                <span *ngFor="let action of actions; index as i">
+                                    <button mat-button class="matbutton" [matTooltip]="actions[i].desc" *ngIf="(role=='casemanager')?(actions[i].iconName.includes('user'))?false:true:true"
+                                        (click)="test(actions[i].iconName, user.alias)">
+                                        <!-- <mat-icon style="padding:4px !important" >{{actions[i].iconName}}</mat-icon> -->
+                                        <i style="padding:4px !important" class="fa fa-{{actions[i].iconName  | lowercase }}"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns; "></mat-header-row>
+                    <mat-row *matRowDef="let row;let i= index;  columns: displayedColumns;" matRipple class="user-row"
+                        [attr.data-row]="row.Name" [attr.data-opened]="rowOpened" [attr.data-index]="i" class="rowheight">
+                    </mat-row>
+                </mat-table>
+            </div>
+        </div>
+    </div>
+    <ng-template cdk-portal class="textColor">
+        <div class="overLayForm displayIE">
+            <div fxLayout="row" fxLayoutAlign="end" class="paddingRow1  " fxLayout.xs="column" fxLayoutWrap="wrap"
+                fxFlexAlign="baseline">
+                <div fxFlex="100%" fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">
+                    <div (click)="openDiv(false)" style="cursor:pointer">
+                        <mat-icon>close</mat-icon>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="end" class="paddingRow2" fxLayout.xs="column" fxLayoutWrap="wrap"
+                fxFlexAlign="baseline">
+                <form [formGroup]="searchcriteriaForm" class="formWidth">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                                <input matInput placeholder="First Name" formControlName="firstName">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                                <input matInput placeholder="Last Name" formControlName="lastName">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                            <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                                <input matInput placeholder="City" formControlName="city">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                            <mat-form-field floatLabel="always" class="lableWidth">
+                                <mat-select placeholder="State" formControlName="state">
+                                    <mat-option *ngFor="let cboData of arrayState" [value]="cboData.viewValue">
+                                        {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field floatLabel="always" class="lableWidth" color="accent">
+                                <mat-select formControlName="language" multiple>
+                                    <mat-option color="accent" *ngFor="let cboData of arrayLanguage" [value]="cboData.viewValue">
+                                        {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-placeholder class="placeholder">
+                                    Prefered Language
+                                </mat-placeholder>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field floatLabel="always" style="width:100%" color="accent">
+                                <mat-select formControlName="timezone" multiple>
+                                    <mat-option color="accent" *ngFor="let cboData of arrayTimeZone" [value]="cboData.viewValue">
+                                        {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-placeholder class="placeholder">
+                                    Time Zone
+                                </mat-placeholder>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field floatLabel="always" class="lableWidth" color="accent">
+                                <mat-select formControlName="status" multiple>
+                                    <mat-option color="accent" *ngFor="let cboData of arrayuserStatus" [value]="cboData.viewValue">
+                                        {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-placeholder class="placeholder">
+                                    Status
+                                </mat-placeholder>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field floatLabel="always" class="lableWidth">
+                                <input matInput placement="top" [bsConfig]="bsConfig" bsDaterangepicker formControlName="availability">
+                                <mat-placeholder class="placeholder">
+                                    Availability Date
+                                </mat-placeholder>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <button class="mat-raised-button mat-primary" (click)="clearForm()">Clear</button>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <button class="mat-raised-button mat-accent" (click)="openDiv(true)">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-template>

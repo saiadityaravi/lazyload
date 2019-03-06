@@ -1,0 +1,30 @@
+export class MemberInfo {
+    memberId: string;
+    title: string;
+    firstName: string;
+    lastName: string;
+    effectiveDt: string;
+    terminationDt: string;
+    eligibilityStatus: string;
+    preferredLanguage: string;
+    memberTimeZone: string;
+    gender: string;
+    birthDate: string;
+    ethnicity: string;
+    address1: string;
+    address2: string;
+    city: string;
+    region: string;
+    state: string;
+    zipCode: string;
+    phoneNumber: string;
+    alternatePhoneNum: string;
+    memberPCPName: string;
+    additionalComment: string;
+    clientId: string;
+    subClientId: string;
+    createdDt: string;
+    createdBy: string;
+    updatedDt: string;
+    updatedBy: string;
+}

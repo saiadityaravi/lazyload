@@ -1,0 +1,314 @@
+// Importing reusable mixins 
+@import "../../../../sass_styles/_mixins.scss";
+.title {
+    position: relative;
+    width: auto;
+    margin-top: 0px !important; 
+    height: auto;
+    background-color: white;
+    font-weight: 600;
+    padding: .6em;
+    padding-right: 1.4em;
+    margin-bottom: 0px;
+    z-index: 1;
+    line-height: 1em;
+    border-top: 3px solid #3c8dbc;
+}
+
+h2 {
+    color: gray !important;
+    font-size: 16px !important;
+}
+
+.title:after {
+    position: absolute;
+    top: 0.1em;
+    right: -.8em;
+    z-index: 1;
+    margin-top: 0px !important; 
+    display: block;
+    width: 1.8em;
+    height: 2.1em;
+    background-color: white;
+    border-right: 0 solid rgba(0, 0, 0, 0.12);
+    content: " ";
+    -webkit-transform: skewX(30deg);
+    -moz-transform: skewX(30deg);
+    -ms-transform: skewX(30deg);
+    -o-transform: skewX(30deg);
+    transform: skewX(30deg);
+}
+
+.basic-container {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.mat-grid-tile .mat-figure {
+    align-items: center !important;
+    justify-content: left !important;
+}
+
+.member-row {
+    position: relative;
+}
+
+.member-row:not(.expanded) {
+    cursor: pointer;
+}
+
+.member-row:not(.expanded):hover {
+    background: inherit;
+}
+
+.member-row.expanded {
+    border-bottom-color: transparent;
+}
+
+.material-icons {
+    font-weight: 800 !important;
+    font-size: 15px !important;
+}
+
+.mat-paginator {
+    background: inherit !important;
+}
+
+.mat-input-element {
+    color: black !important;
+}
+
+.rowBottom {
+    top: -1.2em !important;
+    position: relative;
+}
+
+.iconsrowBottom {
+    bottom: -.3em !important;
+    position: relative;
+    z-index: 10;
+}
+
+.imgbackground {
+    width: 2em;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    position: relative;
+    height: 25px;
+}
+
+.imgbackground:hover {
+    background: gray;
+    cursor: pointer;
+}
+
+.backroundWhite {
+    background: white;
+}
+
+.overLayForm {
+    background: white;
+    position: relative;
+    top: 9.5em;
+    padding: 2em;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    box-shadow: 1px 2px 10px black;
+    color: black;
+    width: 60em;
+}
+
+.warningBackground {
+    color: #f0ad4e;
+}
+
+.formWidth {
+    width: 100%
+}
+
+.quickSearchClass {
+    position: relative;
+    bottom: 0.25em;
+    padding-right: 14px
+}
+
+.quickSearchIcon {
+    position: relative !important;
+    bottom: -.5em !important;
+}
+
+.matbutton {
+    min-width: 0px !important;
+    line-height: 0px !important;
+    padding: 0PX !important;
+    border-radius: 50% !important;
+}
+
+.filterdSearchDiv {
+    width: 95% !important;
+    position: relative;
+    right: -1.5em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-style: italic;
+    font-size: 14px;
+    color: #777;
+}
+
+.my-tooltip {
+    max-width: 500px !important;
+    word-wrap: break-word !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    font-size: 13px !important;
+}
+
+.displayBlock {
+    display: block !important;
+}
+
+.mat-header-row {
+    position: sticky !important;
+    top: 0 !important;
+    background: white !important;
+    z-index: 88;
+}
+
+.rowheight {
+    position: relative !important;
+    background: inherit !important;
+    font-size: 14px !important;
+}
+
+
+
+.mat-column-address {
+    flex: 0 0 12.5vw !important;
+    display: flex !important;
+}
+
+.mat-column-status {
+    flex: 0 0 6vw !important;
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.mat-column-language {
+    display: flex !important;
+    justify-content: center !important;
+    flex: 0 0 10.5vw !important;
+}
+
+.mat-column-timezone {
+    display: flex !important;
+    justify-content: center !important;
+    flex: 0 0 14.5vw !important;
+}
+
+.mat-column-actions {
+    display: flex !important;
+    justify-content: cen12ter !important;
+    flex: 0 0 8vw !important;
+}
+.mat-column-availabilityStartDt {
+    display: flex !important;
+    justify-content: center !important;
+    flex: 0 0 14.5vw !important;
+}
+
+.mat-column-membersConnected {
+    display: flex !important;
+    justify-content: center !important;
+    flex: 0 0 7vw !important;
+}
+
+.mat-column-phoneNumber {
+    display: flex !important;
+    justify-content: center !important;
+    flex: 0 0 8vw !important;
+}
+
+.mat-column-firstName {
+    flex: 0 0 12.5vw !important;
+}
+
+.rowMinHeight {
+    min-height: calc(60vh - 40px) !important;
+}
+
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+    .ieclass {
+        top: 9.5em !important;
+        position: relative !important;
+    }
+}
+
+.refreshButton {
+    background: transparent;
+    border: transparent;
+    padding: 0px;
+    margin: 0px;
+}
+
+.refreshButton:focus {
+    outline: unset !important;
+}
+
+::-webkit-scrollbar {
+    display: block !important;
+    width: 8px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.textColor {
+    color: black !important;
+}
+
+.filterClose {
+    width: 85% !important;
+    cursor: pointer !important;
+}
+
+.lableWidth {
+    width: 100% !important;
+}
+
+.tableHeight {
+    max-height: calc(92vh - 156px) !important;
+    overflow: auto !important;
+}
+
+.expandedRowHeading {
+    font-weight: 600 !important;
+}
+
+.marginLeft {
+    margin-left: 2% !important
+}
+
+.bottomPadding {
+    padding-bottom: 25px !important;
+}
+
+h2.listDisp::first-letter {
+    text-transform: uppercase !important;
+  }

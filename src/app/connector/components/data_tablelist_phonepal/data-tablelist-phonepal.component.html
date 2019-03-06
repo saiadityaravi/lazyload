@@ -1,0 +1,417 @@
+<div class="textColor">
+    <div class="textColor">
+        <div class="loading-shade" *ngIf="isLoadingResults">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="left" fxFlexFill fxFlexAlign="baseline">
+            <div fxFlex="170px" fxFlexAlign="baseline">
+                <h2 class="title">
+                    Phonepal List
+                </h2>
+            </div>
+            <div fxFlex="calc(80vw - 650px)" fxLayoutAlign="left" fxFlexAlign="baseline" class="displayBlock">
+                <div [matTooltip]="filteredValue" [matTooltipClass]="'my-tooltip'" *ngIf="filteredValue!=''">
+                    <div class="filterdSearchDiv">
+                        Search Criteria: {{filteredValue}}
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="3%" fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">
+                <div *ngIf="filteredValue!=''">
+                    <div class="filterClose" (click)="clearForm()">
+                        <mat-icon>
+                            close
+                        </mat-icon>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex=150px fxLayoutAlign="start" fxFlexAlign="baseline" class="quickSearchClass">
+                <mat-form-field floatLabel="always" style="width:100%">
+                    <input matInput (keyup)="applyFilter($event.target.value)" matTooltip="Quick search">
+                    <mat-icon matSuffix class="quickSearchIcon">search</mat-icon>
+                </mat-form-field>
+            </div>
+            <div fxFlex=40px fxLayoutAlign="center" fxFlexAlign="baseline" class="rowBottomIE">
+                <div (click)="openDiv(false)">
+                    <div class="imgbackground text-center" [ngClass]="{'backroundWhite': clicked}">
+                        <i class="fa fa-filter"></i>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex=40px fxLayoutAlign="center" fxFlexAlign="baseline" class="rowBottomIE">
+                <div class="iconsrowBottom">
+                    <button (click)="refresh()" class="refreshButton" matTooltip="refresh">
+                        <mat-icon style="cursor:pointer ">refresh</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div fxFlex="435px" fxLayoutAlign="flex-end" fxFlex.xs="10%" fxFlexAlign="baseline">
+                <div>
+                    <mat-paginator [length]="length" (page)="onPaginateChange($event)" [pageSizeOptions]="[15, 50 , 75, 100, 200]"
+                        [pageSize]="offset" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div>
+
+        <div fxLayout="row" class="rowBottom" fxLayoutAlign="begin center">
+            <div fxFlex=100% class="rowMinHeight">
+                <mat-table #table [dataSource]="dataSource" matSort class="tableHeight">
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="islinked">
+                        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                        <mat-cell *matCellDef="let phonepal">
+                            <mat-icon *ngIf="phonepal.actions[4].iconName=='link_off'">add </mat-icon>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="firstName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> Name
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let phonepal"> {{phonepal.lastName}},{{phonepal.firstName}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="city">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> City
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let phonepal"> {{phonepal.city}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="state">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> State
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let phonepal"> {{phonepal.state}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="language">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> language
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let phonepal">
+                            <div>
+                                <span *ngFor="let lan of phonepal.language">
+                                    {{lan}}
+                                </span>
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="phoneNumber">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> Phone Number
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let phonepal"> {{phonepal.phoneNumber | contactFormat }} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="timezone">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> Time zone
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let phonepal"> {{phonepal.timezone}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> Status
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let phonepal">
+                            <span [ngClass]="{'label-success' :phonepal.status=='Approved', 'label-warning' :phonepal.status=='Pending' || phonepal.status=='Inactive' || phonepal.status=='Time Off', 'label-danger': phonepal.status=='Denied'  }"
+                                class="label">{{phonepal.status}}</span> </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="availabilityStartDt">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> Availability
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let phonepal"> {{phonepal.availabilityStartDt | dateformat}} -
+                            {{phonepal.availabilityEndDate | dateformat}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> </mat-header-cell>
+                        <mat-cell *matCellDef="let phonepal">
+                            <div>
+                                <span *ngFor="let action of phonepal.actions; index as i">
+                                    <button mat-button class="matbutton" [ngClass]="{'warningBackground' : phonepal.actions[i].iconName=='warning'&& !phonepal.actions[i].isDisables}"
+                                        [disabled]="phonepal.actions[i].isDisables" [matTooltip]="phonepal.actions[i].desc"
+                                        *ngIf="phonepal.actions[i].iconName!='note'">
+                                        <mat-icon style="padding:4px !important" [attr.data-disabled]="phonepal.actions[i].isDisables">{{phonepal.actions[i].iconName}}</mat-icon>
+                                    </button>
+                                </span>
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns; "></mat-header-row>
+                    <mat-row *matRowDef="let row;let i= index;  columns: displayedColumns;" matRipple class="phonepal-row"
+                        [attr.data-row]="row.Name" [attr.data-opened]="rowOpened" [attr.data-index]="i"
+                        [cdkDetailPhonepalRow]="row" [cdkDetailRowTpl]="tpl" class="rowheight">
+                    </mat-row>
+                </mat-table>
+                <ng-template #tpl let-phonepal>
+                    <div class="mat-row detail-row rowheight" [@detailExpand] style="overflow: hidden">
+                        <div fxFlex=100% fxLayoutAlign="center" fxFlexAlign="baseline">
+                            <div class="col-md-4">
+                                <div class="col-md-12" class="bottomPadding">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">Member
+                                        Name</div>
+                                    <div fxFlex=47% fxLayoutAlign="start" class="marginLeft" fxFlexAlign="baseline">{{assignMemberData.memberName}}</div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">Lonliness</div>
+                                    <div fxFlex=47% fxLayoutAlign="start" class="marginLeft" fxFlexAlign="baseline">{{assignMemberData.lonliness}}</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">Socialization</div>
+                                    <div fxFlex=47% fxLayoutAlign="start" class="marginLeft" fxFlexAlign="baseline">{{assignMemberData.socialization}}</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">Mood</div>
+                                    <div fxFlex=47% fxLayoutAlign="start" class="marginLeft" fxFlexAlign="baseline">{{assignMemberData.mood}}</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">Isolation
+                                        Score</div>
+                                    <div fxFlex=47% fxLayoutAlign="start" class="marginLeft" fxFlexAlign="baseline">{{assignMemberData.isolationScore}}</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">Risk
+                                        Stratification</div>
+                                    <div fxFlex=47% fxLayoutAlign="start" class="marginLeft" fxFlexAlign="baseline">{{assignMemberData.riskStratification}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12" class="bottomPadding">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">Next
+                                        Scheduled Call Date</div>
+                                    <div fxFlex=47% fxLayoutAlign="start" class="marginLeft" fxFlexAlign="baseline">{{assignMemberData.nextScheduledCallDate
+                                        | dateformat}}</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">
+                                        Referral Date</div>
+                                    <div fxFlex=25% fxLayoutAlign="start" class="marginLeft" fxFlexAlign="baseline">
+                                        <div *ngIf="isEmptyObjectRefferal(assignMemberData) else dateNull">
+                                            {{assignMemberData.referralDate
+                                            | dateformat}}
+                                        </div>
+                                        <ng-template #dateNull>
+                                            <div>
+                                                N/A
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">
+                                        Referral Source</div>
+                                    <div fxFlex=25% fxLayoutAlign="start" class="marginLeft" fxFlexAlign="baseline">
+                                        <div *ngIf="isEmptyObjectRefferal(assignMemberData) else emailNull">
+                                            {{assignMemberData.referralSource}}
+                                        </div>
+                                        <ng-template #emailNull>
+                                            <div>
+                                                N/A
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">
+                                        Referral Name</div>
+                                    <div fxFlex=47% class="marginLeft" fxLayoutAlign="start" fxFlexAlign="baseline">
+                                        <div *ngIf="isEmptyObjectRefferal(assignMemberData) else nameNull">
+                                            {{assignMemberData.referralName}}
+                                        </div>
+                                        <ng-template #nameNull>
+                                            <div>
+                                                N/A
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">
+                                        Referral Contact</div>
+                                    <div fxFlex=47% fxLayoutAlign="start" class="marginLeft" fxFlexAlign="baseline">
+                                        <div *ngIf="isEmptyObjectRefferal(assignMemberData) else contactNull">
+                                            {{assignMemberData.referralContact}}
+                                        </div>
+                                        <ng-template #contactNull>
+                                            <div>
+                                                N/A
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">
+                                        Referral Email</div>
+                                    <div fxFlex=25% fxLayoutAlign="start" class="marginLeft" fxFlexAlign="baseline">
+                                        <div *ngIf="isEmptyObjectRefferal(assignMemberData) else emailNull">
+                                            {{assignMemberData.referralEmail}}
+                                        </div>
+                                        <ng-template #emailNull>
+                                            <div>
+                                                N/A
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12" class="bottomPadding" [matTooltip]="">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">Contact</div>
+                                    <div fxFlex=47% fxLayoutAlign="start" class="marginLeft" fxFlexAlign="baseline">{{assignMemberData.contact
+                                        | contactFormat}}</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">Barrier</div>
+                                    <div fxFlex=47% [matTooltip]="assignMemberData.barrier" fxLayoutAlign="start" class="marginLeft"
+                                        fxFlexAlign="baseline">{{assignMemberData.barrier | truncate}}</div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">
+                                        Physical Activity</div>
+                                    <div fxFlex=47% fxLayoutAlign="start" [matTooltip]="assignMemberData.physicalActivity"
+                                        class="marginLeft" fxFlexAlign="baseline">{{assignMemberData.physicalActivity
+                                        | truncate}}</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">
+                                        Anthem Program</div>
+                                    <div fxFlex=47% fxLayoutAlign="start" [matTooltip]="assignMemberData.anthemProgram"
+                                        class="marginLeft" fxFlexAlign="baseline">{{assignMemberData.anthemProgram
+                                        | truncate}}</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">
+                                        Care Coordination</div>
+                                    <div fxFlex=47% fxLayoutAlign="start" [matTooltip]="assignMemberData.careCoordination"
+                                        class="marginLeft" fxFlexAlign="baseline">{{assignMemberData.careCoordination
+                                        | truncate}}</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">Community
+                                        Resources
+                                    </div>
+                                    <div fxFlex=47% fxLayoutAlign="start" [matTooltip]="assignMemberData.communityResources"
+                                        class="marginLeft" fxFlexAlign="baseline">{{assignMemberData.communityResources
+                                        | truncate}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <ng-template cdk-portal class="textColor">
+        <div class="overLayForm displayIE">
+            <div fxLayout="row" fxLayoutAlign="end" class="paddingRow1  " fxLayout.xs="column" fxLayoutWrap="wrap"
+                fxFlexAlign="baseline">
+                <div fxFlex="100%" fxLayoutAlign="end" fxFlexAlign="baseline" class="expandedRowHeading">
+                    <div (click)="openDiv(false)" style="cursor:pointer">
+                        <mat-icon>close</mat-icon>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="end" class="paddingRow2" fxLayout.xs="column" fxLayoutWrap="wrap"
+                fxFlexAlign="baseline">
+                <form [formGroup]="searchcriteriaForm" class="formWidth">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                                <input matInput placeholder="First Name" formControlName="firstName">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                                <input matInput placeholder="Last Name" formControlName="lastName">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                            <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                                <input matInput placeholder="City" formControlName="city">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                            <mat-form-field floatLabel="always" class="lableWidth">
+                                <mat-select placeholder="State" formControlName="state">
+                                    <mat-option *ngFor="let cboData of arrayState" [value]="cboData.viewValue">
+                                        {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field floatLabel="always" class="lableWidth" color="accent">
+                                <mat-select formControlName="language" multiple>
+                                    <mat-option color="accent" *ngFor="let cboData of arrayLanguage" [value]="cboData.viewValue">
+                                        {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-placeholder class="placeholder">
+                                    Prefered Language
+                                </mat-placeholder>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field floatLabel="always" style="width:100%" color="accent">
+                                <mat-select formControlName="timezone" multiple>
+                                    <mat-option color="accent" *ngFor="let cboData of arrayTimeZone" [value]="cboData.viewValue">
+                                        {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-placeholder class="placeholder">
+                                    Time Zone
+                                </mat-placeholder>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field floatLabel="always" class="lableWidth" color="accent">
+                                <mat-select formControlName="status" multiple>
+                                    <mat-option color="accent" *ngFor="let cboData of arrayPhonepalStatus" [value]="cboData.viewValue">
+                                        {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-placeholder class="placeholder">
+                                    Status
+                                </mat-placeholder>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field floatLabel="always" class="lableWidth">
+                                <input matInput placement="top" [bsConfig]="bsConfig" bsDaterangepicker formControlName="availability">
+                                <mat-placeholder class="placeholder">
+                                    Availability Date
+                                </mat-placeholder>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field floatLabel="always" class="lableWidth">
+                                <input matInput placement="top" [bsConfig]="bsConfig" bsDaterangepicker formControlName="nominationApprovalDt">
+                                <mat-placeholder class="placeholder">
+                                    Nomination Approval Date
+                                </mat-placeholder>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field floatLabel="always" class="lableWidth">
+                                <input matInput placement="top" [bsConfig]="bsConfig" bsDaterangepicker formControlName="nominationDt">
+                                <mat-placeholder class="placeholder">
+                                    Nomination Date
+                                </mat-placeholder>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field floatLabel="always" class="lableWidth">
+                                <input matInput placement="top" [bsConfig]="bsConfig" bsDaterangepicker formControlName="trainingCompletionDt">
+                                <mat-placeholder class="placeholder">
+                                    Training Completion Date
+                                </mat-placeholder>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <button class="mat-raised-button mat-primary" (click)="clearForm()">Clear</button>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <button class="mat-raised-button mat-accent" (click)="openDiv(true)">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-template>

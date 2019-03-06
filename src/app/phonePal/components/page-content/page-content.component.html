@@ -1,0 +1,168 @@
+<div id="wrap">
+    <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+    <div class="row no-margin-left no-margin-right" *ngIf="userRole=='ROLE_phonepal'">
+        <div class="col-md-12">
+            <section class="content-header">
+                <h1>
+                    PhonePal
+                    <small>it all starts here</small>
+                </h1>
+                <app-breadcrumb></app-breadcrumb>
+            </section>
+        </div>
+    </div>
+    <div class="row no-margin-left no-margin-right">
+        <div class="col-md-3">
+
+            <!-- Member Details Card -->
+            <mat-card class="member_details">
+                <mat-card-title>{{ memberInformation.lastName }}, {{ memberInformation.firstName }} </mat-card-title>
+                <mat-card-subtitle>Member ID #:{{ memberInformation.memberId }}</mat-card-subtitle>
+                <hr>
+                <mat-card-content>
+                    <div class="row no-margin-left no-margin-right">
+                        <span class="place-left"><b>Effective/Term Date</b></span>
+                        <span class="place-right"><span class="pull-right">{{ memberInformation.effectiveDt | dateformat }} - {{
+                            memberInformation.terminationDt | dateformat }}</span></span>
+                    </div>
+                    <hr>
+                    <div class="row no-margin-left no-margin-right">
+                        <span class="place-left"><b>Next Call Date</b></span>
+                        <span class="place-right"><span class="pull-right">{{ nextScheduledCallDate | dateformat }}</span></span>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <!-- Member Details Card -->
+
+            <!-- About Member Card -->
+            <mat-card class="about_member">
+                <mat-card-title><span class="about-member-title">About Member</span></mat-card-title>
+                <hr>
+                <mat-card-content>
+                    <div class="row no-margin-left no-margin-right">
+                        <div class="col-md-6">
+                            <strong>
+                                <mat-icon class="icon content-icon">location_on</mat-icon> Location
+                            </strong>
+                            <p class="text-muted">{{ memberInformation.city }}, {{ memberInformation.state }}</p>
+                        </div>
+                        <!-- <div class="col-md-6">
+                            <strong><mat-icon class="icon content-icon">edit</mat-icon>Key Flags</strong>
+                            <p>
+                                <span class="label label-danger">abc</span>
+                                <span class="label label-success">def</span>
+                                <span class="label label-info">ghi</span>
+                                <span class="label label-warning">jkl</span>
+                                <span class="label label-primary">mno</span>
+                            </p>
+                        </div> -->
+                    </div>
+                    <div class="row no-margin-left no-margin-right">
+                        <div class="col-md-6">
+                            <strong>
+                                <mat-icon class="icon content-icon">cake</mat-icon> Birthdate
+                            </strong>
+                            <p class="text-muted">{{ memberInformation.birthDate | slice:0:10 | date: 'MMMM dd' }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>
+                                <mat-icon class="icon content-icon">person</mat-icon> Gender
+                            </strong>
+                            <p class="text-muted">{{ memberInformation.gender }}</p>
+                        </div>
+                    </div>
+                    <div class="row no-margin-left no-margin-right">
+                        <div class="col-md-6">
+                            <strong>
+                                <mat-icon class="icon content-icon">access_time</mat-icon> Timezone
+                            </strong>
+                            <p class="text-muted">{{ memberInformation.memberTimeZone }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>
+                                <mat-icon class="icon content-icon">language</mat-icon> Language
+                            </strong>
+                            <p class="text-muted">{{ memberInformation.preferredLanguage }}</p>
+                        </div>
+                    </div>
+                    <div class="row no-margin-left no-margin-right">
+                        <div class="col-md-12">
+                            <strong>
+                                <mat-icon class="icon content-icon">phone</mat-icon> Phone Number
+                            </strong>
+                            <p class="text-muted">{{ memberInformation.phoneNumber | contactFormat }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row no-margin-left no-margin-right">
+                        <div class="col-md-12">
+                            <strong>
+                                <mat-icon class="icon content-icon">event_note</mat-icon> Notes
+                            </strong>
+                            <p class="notes-text" [matTooltip]="memberInformation.additionalComment">{{ memberInformation.additionalComment |
+                                Commenttruncate }}</p>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <!-- About Member Card -->
+        </div>
+        <div class="col-md-9">
+            <!-- Activity Tab -->
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
+                    <li class="pull-right " role="presentation">
+                        <a class="" data-toggle="modal" data-target="#modal-info" (click)="openDialog({isreadOnly: false, paramObject:'', memberId: memberInformation.memberId})">
+                            <mat-icon class="icon content-icon">record_voice_over</mat-icon> Record Member Interaction
+                        </a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+                <!-- activity tab content -->
+                <div class="tab-content">
+                    <div class="timeline-wrapper">
+                        <ul class="timeline">
+                            <li *ngFor="let memberNote of memberNotesList | groupBy:'callDt'">
+                                <span class="time-label">
+                                    <span class="bg-red">
+                                        {{ memberNote.key | slice:0:10 | date: 'MM/dd/yyyy' }}
+                                    </span>
+                                </span>
+                                <div class="timeline-item-container" *ngFor="let memNote of memberNote.value">
+                                    <span class="timeline-icon">
+                                        <mat-icon class="icon content-icon">chat</mat-icon>
+                                    </span>
+                                    <mat-card class="timeline-item">
+                                        <span class="time">
+                                            <mat-icon>access_timeline</mat-icon> {{ memNote.callDuration }}
+                                        </span>
+                                        <h3 class="timeline-header"><span>{{ memNote.firstName }} {{ memNote.lastName }}</span> </h3>
+                                        <div class="timeline-body">
+                                            {{ memNote.comments }}
+                                        </div>
+                                        <div class="timeline-footer">
+                                            <a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-default"
+                                                (click)="openDialog({ isreadOnly: true, paramObject:memNote, memberId: memNote.memberId})">
+                                                View details
+                                            </a>
+                                        </div>
+                                    </mat-card>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="timeline-history">
+                                    <mat-icon>access_timeline</mat-icon>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- activity tab content -->
+            </div>
+            <!-- Activity Tab -->
+        </div>
+    </div>
+</div>

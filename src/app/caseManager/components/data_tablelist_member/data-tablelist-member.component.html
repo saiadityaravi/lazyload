@@ -1,0 +1,357 @@
+<div class="textColor">
+    <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="left" fxLayout.xs="column" fxFlexFill fxFlexAlign="start">
+        <div fxFlex="170px" fxFlexAlign="baseline">
+            <h2 ngClass.gt-xs="title" ngClass.xs="title1">
+                Members referred by me
+            </h2>
+        </div>
+        <div fxFlex="calc(80vw - 650px)" fxLayoutAlign="left" fxFlexAlign="baseline" class="displayBlock">
+            <div [matTooltip]="filteredValue" [matTooltipClass]="'my-tooltip'" *ngIf="filteredValue!=''">
+                <div class="filterdSearchDiv">
+                    Search Criteria:{{filteredValue}}
+                </div>
+            </div>
+        </div>
+        <div fxFlex="3%" fxLayoutAlign="end" fxFlexAlign="baseline">
+            <div *ngIf="filteredValue!=''">
+                <div class="filterClose" (click)="clearForm()">
+                    <mat-icon>
+                        close
+                    </mat-icon>
+                </div>
+            </div>
+        </div>
+        <div fxFlex="150px" fxLayoutAlign="center" fxFlexAlign="baseline" class="quickSearchClass">
+            <mat-form-field floatLabel="always" style="width:100%">
+                <input matInput (keyup)="applyFilter($event.target.value)" matTooltip="Quick search">
+                <mat-icon matSuffix class="quickSearchIcon">search</mat-icon>
+            </mat-form-field>
+        </div>
+        <div fxFlex="30px" fxLayoutAlign="center" fxFlexAlign="center" class="rowBottomIE">
+                <div class="imgbackground text-center"  (click)="openDiv(false)" [ngClass]="{'backroundWhite': clicked}">
+                    <i class="fa fa-filter"></i>
+            </div>
+        </div>
+        <div fxFlex="30px" fxLayoutAlign="center" fxFlexAlign="center" class="rowBottomIE iconsrowBottom">
+            <mat-icon style="cursor:pointer" (click)="refresh()">
+                refresh
+            </mat-icon>
+        </div>
+        <div fxFlex="30px" fxLayoutAlign="center" fxFlexAlign="center" class="rowBottomIE iconsrowBottom">
+            <mat-icon style="cursor:pointer " (click)="referralDialogue()">
+                add
+            </mat-icon>
+        </div>
+        <div fxFlex="435px" fxLayoutAlign="end" fxFlex.xs="10%" fxFlexAlign="baseline">
+            <div>
+                <mat-paginator [length]="length" [pageSize]="15" [pageSizeOptions]="[15, 25, 50, 100, 200]" [pageIndex]="pageIndex"
+                    (page)="getServerData($event)" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+    <div fxLayout="row" class="rowBottom" fxLayoutAlign="begin start">
+        <div fxFlex=100% class="rowMinHeight">
+            <mat-table #table [dataSource]="dataSource" matSort class="tableHeight">
+                <!-- Position Column -->
+                <ng-container matColumnDef="expand">
+                    <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                    <mat-cell *matCellDef="let member">
+                        <mat-icon>add </mat-icon>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="memberId">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+                    <mat-cell *matCellDef="let member">
+                        {{member.memberId}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="firstName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.lastName}}, {{member.firstName}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="address">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Address </mat-header-cell>
+                    <mat-cell *matCellDef="let member">
+                        <div *ngIf="address!= isEmptyObject(member.address)  else dispNull">
+                            {{member.address.address1}},{{member.address.address2}}
+                            {{member.address.city}},{{member.address.state}},{{member.address.zipCode}} </div>
+                        <ng-template #dispNull>
+                            <div>N/A</div>
+                        </ng-template>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="birthDate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Date Of Birth </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.birthDate | dateformat}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="effectiveDt">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Effective Date </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.effectiveDt | dateformat}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="terminationDt">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Termination Date </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.terminationDt | dateformat}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="preferredLanguage">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Language </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.preferredLanguage}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="phoneNumber">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.phoneNumber | contactFormat }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="memberTimeZone">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Timezone </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.memberTimeZone}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="eligibilityStatus">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+                    <mat-cell *matCellDef="let member">
+                        <span [ngClass]="{'label-success' :member.eligibilityStatus=='Eligible', 'label-warning' :member.eligibilityStatus=='Pending', 'label-danger': member.eligibilityStatus=='Not Eligible'  }"
+                            class="label">{{member.eligibilityStatus}}</span> </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="gender">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Gender </mat-header-cell>
+                    <mat-cell *matCellDef="let member" [matTooltip]="member.gender">
+                        <i class="fa fa-{{member.gender  | lowercase }}"></i>
+                    </mat-cell>
+                </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+                <mat-row *matRowDef="let row;let i = index; columns: displayedColumns; " [attr.data-opened]="rowOpened"
+                    [attr.data-index]="i" matRipple class="member-row" [cdkDetailMemberRow]="row" [attr.data-row]="row.Name"
+                    [cdkDetailRowTpl]="tpl" class="rowheight">
+                </mat-row>
+            </mat-table>
+            <ng-template #tpl let-member>
+                <div class="mat-row detail-row rowheight" [@detailExpand] style="overflow: hidden;position: relative !important;">
+                    <div fxFlex=100% fxLayoutAlign="center" fxFlexAlign="baseline">
+                        <div fxFlex=100% fxLayoutAlign="left" fxFlexAlign="baseline">
+                            <div class="row" class="lableWidth">
+                                <div class="col-md-3">
+                                    <dl class="dl-horizontal">
+                                        <dt>Health Status Date </dt>
+                                        <dd>{{memberHealthData.healthStatusDt | dateformat}}</dd>
+                                        <dt>Any Social Support ? </dt>
+                                        <dd>{{memberHealthData.anySocialSupport}}</dd>
+                                        <dt>Has no one to talk to ? </dt>
+                                        <dd>{{memberHealthData.hasNooneToTalkTo}}</dd>
+                                        <dt>How often leaves home ? </dt>
+                                        <dd>{{memberHealthData.howOftenMemberLeaveHome}}</dd>
+                                        <dt>Lives alone ? </dt>
+                                        <dd>{{memberHealthData.liveAlone}}</dd>
+                                        <dt>Is Critical ? </dt>
+                                        <dd>{{memberHealthData.redFlag}}</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-3">
+                                    <dl class="dl-horizontal">
+                                        <dt>Referral Source </dt>
+                                        <dd>
+                                            <div *ngIf="isEmptyObjectRefferal(memberReferralData.source) else sourceNull">
+                                                {{memberReferralData.source}}
+                                            </div>
+                                            <ng-template #sourceNull>
+                                                <div>
+                                                    N/A
+                                                </div>
+                                            </ng-template>
+                                        </dd>
+                                        <dt>Referral Date </dt>
+                                        <dd>
+                                            <div *ngIf="isEmptyObjectRefferal(memberReferralData.date) else dateNull">
+                                                {{memberReferralData.date
+                                                | dateformat}}
+                                            </div>
+                                            <ng-template #dateNull>
+                                                <div>
+                                                    N/A
+                                                </div>
+                                            </ng-template>
+                                        </dd>
+                                        <dt>Referral Name </dt>
+                                        <dd>
+                                            <div *ngIf="isEmptyObjectRefferal(memberReferralData.refereeName) else nameNull">
+                                                {{memberReferralData.refereeName}}
+                                            </div>
+                                            <ng-template #nameNull>
+                                                <div>
+                                                    N/A
+                                                </div>
+                                            </ng-template>
+                                        </dd>
+                                        <dt>Referral Contact </dt>
+                                        <dd>
+                                            <div *ngIf="isEmptyObjectRefferal(memberReferralData.contactNumber) else contactNull">
+                                                {{memberReferralData.contactNumber}}
+                                            </div>
+                                            <ng-template #contactNull>
+                                                <div>
+                                                    N/A
+                                                </div>
+                                            </ng-template>
+                                        </dd>
+                                        <dt>Referral Email </dt>
+                                        <dd>
+                                            <div *ngIf="isEmptyObjectRefferal(memberReferralData.email) else emailNull">
+                                                {{memberReferralData.email}}
+                                            </div>
+                                            <ng-template #emailNull>
+                                                <div>
+                                                    N/A
+                                                </div>
+                                            </ng-template>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-5">
+                                    <dl class="dl-horizontal">
+                                        <dt>Notes </dt>
+                                        <dd>
+                                            <div *ngIf="isEmptyObjectRefferal(memberReferralData.source) else sourceNull">
+                                                {{memberReferralData.notes}}
+                                            </div>
+                                            <ng-template #sourceNull>
+                                                <div>
+                                                    N/A
+                                                </div>
+                                            </ng-template>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-1">
+                                    <dl class="dl-horizontal" matTooltip="Referral History">
+                                        <button mat-icon-button (click)="openrefferalHistory()">
+                                            <i class="fa fa-external-link"></i>
+                                        </button>
+
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
+<ng-template cdk-portal class="textColor">
+    <div class="overLayForm displayIE">
+        <div fxLayout="row" fxLayoutAlign="end" class="paddingRow1  " fxLayout.xs="column" fxLayoutWrap="wrap"
+            fxFlexAlign="baseline">
+            <div fxFlex="100%" fxLayoutAlign="end" fxFlexAlign="baseline">
+                <div (click)="openDiv(false)" style="cursor:pointer">
+                    <mat-icon>close</mat-icon>
+                </div>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end" class="paddingRow2" fxLayout.xs="column" fxLayoutWrap="wrap"
+            fxFlexAlign="baseline">
+            <form [formGroup]="searchcriteriaForm">
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                            <input matInput placeholder="ID" formControlName="memberid">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                            <input matInput placeholder="First Name" formControlName="firstname">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                            <input matInput placeholder="Last Name" formControlName="lastname">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-form-field floatLabel="always" class="lableWidth">
+                            <mat-select placeholder="Gender" formControlName="gender">
+                                <mat-option *ngFor="let cboData of arrayGender" [value]="cboData.viewValue">
+                                    {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                            <input matInput [matDatepicker]="picker" placeholder="Eligibility Date" formControlName="eligibilitydate">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                            <input matInput [matDatepicker]="picker2" placeholder="Termination Date" formControlName="terminationdate">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field floatLabel="always" class="lableWidth" color="accent">
+                            <mat-select formControlName="language" multiple>
+                                <mat-option color="accent" *ngFor="let cboData of arrayLanguage" [value]="cboData.viewValue">
+                                    {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-placeholder class="placeholder">
+                                Prefered Language
+                            </mat-placeholder>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                            <input matInput placeholder="City" formControlName="city">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field floatLabel="always" class="lableWidth">
+                            <mat-select placeholder="State" formControlName="state">
+                                <mat-option color="accent" *ngFor="let cboData of arrayState" [value]="cboData.viewValue">
+                                    {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                            <input matInput placeholder="Referral Source" formControlName="referralsource">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field floatLabel="always" class="lableWidth" color="accent">
+                            <mat-select formControlName="status" multiple>
+                                <mat-option color="accent" *ngFor="let cboData of arrayPhonepalStatus" [value]="cboData.viewValue">
+                                    {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-placeholder class="placeholder">
+                                Status
+                            </mat-placeholder>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <button class="mat-raised-button mat-primary" (click)="clearForm()">Clear</button>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <button class="mat-raised-button mat-accent" (click)="openDiv(true)">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

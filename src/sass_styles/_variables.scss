@@ -1,0 +1,71 @@
+// Global SASS Variables and Theaming
+// Text Related Styling Variables
+$font-size-base: 16px;
+$base-size: 8px;
+$font-color: black;
+$font-size-light: 11px;
+$font-size-medium: 13px;
+$toolbar-mat-icon-size: 17px;
+$font-color-h2: inherit;
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+// Page Related styling
+$page-padding: 2 * $font-size-base;
+$header-height: 10 * $base-size;
+//lang
+// Color Related Styling Variables
+$dark-blue: #062466;
+$light-blue: #0048db;
+$light-grey-blue: #9bbed8;
+$dark-grey-blue: #7791b2;
+$light-green: #69F3AB;
+$med-grey: #EBEBEB;
+$toolbar-color-primary: #3c8dbc;
+$badge-green: #00a65a;
+$badge-red: #ff0000;
+$badge-orange: #f39c12;
+$content-background:#e8eaf6;
+
+// Named Color Variables
+$color-primary: #488AFF;
+$color-secondary: #32DB64;
+$color-danger: #F53D3D;
+$color-light: #F4F4F4;
+$color-dark: #222222;
+$color-white: #FFFFFF;
+$blue-icon:#062466;
+$green-icon:#357A56;
+// Including Font Stack
+$app-font-stack: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+// Media Query endpoints
+$small-devices: 768px;
+$medium-devices: 992px;
+$large-devices: 1200px;
+// Base Variables
+$alto: #d6d6d6; // Darker body grey
+$deep-sapphire: #062466; // Dark blue
+$gallery: #ebebeb; // Lighter body grey
+$science-blue: #0048db; // Medium blue
+$snuff: #dfd7e8; // Header label color
+$tundora: #474747; // Font color
+$white: #ffffff;
+// Button Component
+$Button-padding: 0.5rem 2rem;
+$Button-radius: 0.25rem;
+$Button-primary-bg: $deep-sapphire;
+$Button-primary-color: $white;
+$Button-primary-bg-hover: $science-blue;
+$Button-primary-color-hover: $white;
+$Button-secondary-bg: $gallery;
+$Button-secondary-color: $gallery;
+$Button-secondary-bg-hover: $gallery;
+$Button-secondary-color-hover: $gallery;
+$Button-tertiary-bg: transparent;
+$Button-tertiary-color: $tundora;
+$Button-tertiary-bg-hover: $tundora;
+$Button-tertiary-color-hover: $white;
+
+// Tab highlight color
+$tab-highlight-color: #3F51B5;

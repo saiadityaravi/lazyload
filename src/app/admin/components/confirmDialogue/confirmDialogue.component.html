@@ -1,0 +1,10 @@
+<div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner color="accent" *ngIf="isLoadingResults"></mat-spinner>
+</div>
+<div mat-dialog-content style="height: 9vh !important;">
+    <p style=" padding: 24px 24px 0px 24px !important;" >{{title}}</p>
+</div>
+<div mat-dialog-actions style="justify-content: center !important;margin-bottom: -0px !important;">
+    <button mat-button (click)="onNoClick()">No</button>
+    <button mat-button (click)="onOkClick()">Yes</button>
+</div>

@@ -1,0 +1,368 @@
+<div [class]="theme">
+        <div class="loading-shade" *ngIf="isLoadingResults">
+                <mat-spinner color="accent" *ngIf="isLoadingResults"></mat-spinner>
+            </div>
+    <div [class]="theme2">
+        <mat-toolbar color="accent">
+            <mat-toolbar-row>
+                <div class="col-md-11 textColor1">
+                    <span>Member Referral Form</span>
+                </div>
+                <div class="col-md-1 cursorPointer">
+                    <mat-icon (click)=close()>close</mat-icon>
+                </div>
+            </mat-toolbar-row>
+        </mat-toolbar>
+    </div>
+    <mat-card class="matcardbackground no-padding-left no-padding-right " color="accent">
+        <mat-horizontal-stepper [linear]="isLinear" #stepper class="backgroundColor" color="accent">
+            <mat-step [stepControl]="memberSearchForm">
+                <div fxLayout="row" fxLayout.xs="column" class="searchRow" fxLayoutWrap fxLayoutAlign="start">
+                    <form [formGroup]="memberSearchForm">
+                        <mat-form-field floatLabel="always" class="labelWidth">
+                            <input  matInput placeholder="Member Id" formControlName="memberID" #memberID>
+                            <button mat-button matToolTip="Search for member" matSuffix mat-icon-button aria-label="Search"  (click)="searchMember(memberID)">
+                                <mat-icon>search</mat-icon>
+                              </button>
+                           
+                            <mat-error *ngIf="memberSearchForm.controls.memberID.invalid">{{getErrorMessageMemberID()}}</mat-error>
+                        </mat-form-field>
+                    </form>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" class="formRow displayIErefer" fxLayoutWrap fxLayoutAlign="start">
+                    <mat-card-content class="fullWidth">
+                        <form [formGroup]="memberForm">
+                            <ng-template matStepLabel>Member Information</ng-template>
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                                <div fxFlex="30%">
+                                    <mat-form-field floatLabel="always" class="labelWidth">
+                                        <input matInput placeholder="First Name" formControlName="firstName">
+                                        <mat-error *ngIf="memberForm.controls.firstName.invalid">{{getErrorMessageFirstName()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="30%">
+                                    <mat-form-field floatLabel="always" class="labelWidth">
+                                        <input matInput placeholder="Last Name" formControlName="lastName">
+                                        <mat-error *ngIf="memberForm.controls.lastName.invalid">{{getErrorMessageLastName()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="12%">
+                                    <mat-form-field floatLabel="always" class="labelWidth" color="accent">
+                                        <mat-select formControlName="gender">
+                                            <mat-option color="accent" *ngFor="let cboData of arrayGender" [value]="cboData.viewValue">
+                                            {{cboData.viewValue}}
+                                            </mat-option>
+                                        </mat-select>                                        
+                                        <mat-placeholder class="placeholder">
+                                            Gender
+                                        </mat-placeholder>
+                                        <mat-error *ngIf="memberForm.controls.gender.invalid">{{getErrorMessageGender()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="20%">
+                                    <mat-form-field class="labelWidth" floatLabel="always">
+                                        <input matInput [matDatepicker]="picker" placeholder="Date Of Birth" formControlName="dob" [value]="memberDOB">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                        <mat-error *ngIf="memberForm.controls.dob.invalid">{{getErrorMessageDOB()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                                <div fxFlex="62%">
+                                    <mat-form-field floatLabel="always" class="labelWidth">
+                                        <input matInput placeholder="Address" formControlName="address">
+                                        <mat-error *ngIf="memberForm.controls.address.invalid">{{getErrorMessageAddress()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="34%">
+                                    <mat-form-field floatLabel="always" class="labelWidth" color="accent">
+                                        <mat-select formControlName="languages" (selectionChange)="languageSelected($event.value)">
+                                            <mat-option color="accent" *ngFor="let cboData of arrayLanguage" [value]="cboData.viewValue">
+                                            {{cboData.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+
+                                        <mat-placeholder class="placeholder">
+                                            Prefered Language
+                                        </mat-placeholder>
+                                        <mat-error *ngIf="memberForm.controls.languages.invalid">{{getErrorMessageLanguage()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                                <div fxFlex="24%">
+                                    <mat-form-field floatLabel="always" class="labelWidth">
+                                        <input matInput placeholder="City" formControlName="city">
+                                        <mat-error *ngIf="memberForm.controls.city.invalid">{{getErrorMessageCity()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="9%">
+                                    <mat-form-field floatLabel="always" class="labelWidth">
+                                        <mat-select placeholder="State" formControlName="state">
+                                            <mat-option *ngFor="let cboData of arrayState" [value]="cboData.viewValue">
+                                            {{cboData.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="memberForm.controls.state.invalid">{{getErrorMessageState()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="9%">
+                                    <mat-form-field floatLabel="always" class="labelWidth">
+                                        <input matInput [textMask]="numberMask" minlength="5" placeholder="Zip" formControlName="zip">
+                                        <mat-error *ngIf="memberForm.controls.zip.invalid">{{getErrorMessageZip()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="18%">
+                                    <mat-form-field floatLabel="always" class="labelWidth">
+                                        <input matInput [textMask]="mask" minlength="14" placeholder="Phone" formControlName="phoneNumber">
+                                        <mat-error *ngIf="memberForm.controls.phoneNumber.invalid">{{getErrorMessagePhoneNumber()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="23%">
+                                    <span *ngIf="isOtherLanguage">
+                                        <input class="txtOtherLanguage" matInput placeholder="Other Language" (keyup)="onLanguageChange($event.target.value)" formControlName="otherLanguage">
+                                        <mat-error *ngIf="memberForm.controls.otherLanguage.invalid">{{getErrorMessageOtherLanguage()}}</mat-error>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-card-content>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="end" class="matcardAction">
+                    <div [class]="theme">
+                        <button [disabled]="memberForm.invalid || memberSearchForm.invalid " mat-raised-button color="accent" matStepperNext>Next</button>
+                    </div>
+                </div>
+            </mat-step>
+
+            <!-- Step 2 of Member Information -->
+            <mat-step [stepControl]="intermediateForm">
+                <div fxLayout="row" fxLayout.xs="column" class="formRow displayIErefer" fxLayoutWrap fxLayoutAlign="start">
+                    <mat-card-content class="labelWidth">
+                        <form [formGroup]="intermediateForm">
+                            <ng-template matStepLabel>Member Details</ng-template>
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                                <div fxFlex="100%">
+                                    <mat-form-field floatLabel="always" class="labelWidth">
+                                        <input matInput placeholder="Product Plan" formControlName="productPlan">
+                                        <mat-error *ngIf="intermediateForm.controls.productPlan.invalid">{{getErrorMessageProductPlan()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                                <div fxFlex="25%">
+                                    <mat-form-field class="labelWidth" floatLabel="always">
+                                        <input matInput [matDatepicker]="effDatePicker" placeholder="Effective Date" formControlName="effectiveDate">
+                                        <mat-datepicker-toggle matSuffix [for]="effDatePicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #effDatePicker></mat-datepicker>
+                                        <mat-error *ngIf="intermediateForm.controls.effectiveDate.invalid">{{getErrorMessageEffectiveDate()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="33%">
+                                    <mat-form-field class="labelWidth" floatLabel="always">
+                                        <input matInput [matDatepicker]="terDatePicker" placeholder="Termination Date" formControlName="terminationDate">
+                                        <mat-datepicker-toggle matSuffix [for]="terDatePicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #terDatePicker></mat-datepicker>
+                                        <mat-error *ngIf="intermediateForm.controls.terminationDate.invalid">{{getErrorMessageTerminationDate()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="36%">
+                                    <mat-form-field floatLabel="always" class="labelWidth">
+                                        <input matInput placeholder="PCP Name" formControlName="pcpname">
+                                        <mat-error *ngIf="intermediateForm.controls.pcpname.invalid">{{getErrorMessagePCPName()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                                <div fxFlex="25%">
+                                    <mat-form-field floatLabel="always" class="labelWidth">
+                                        <input matInput [textMask]="mask" placeholder="Alternate Phone" formControlName="altPhoneNumber">
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="30%">
+                                    <mat-form-field floatLabel="always" class="labelWidth">
+                                        <!-- <input matInput placeholder="Timezone" formControlName="timezone"> -->
+                                        <mat-select placeholder="Time zone" formControlName="timezone">
+                                            <mat-option color="accent" *ngFor="let cboData of arrayTimeZone" [value]="cboData.viewValue">
+                                            {{cboData.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+
+                                        <mat-error *ngIf="intermediateForm.controls.timezone.invalid">{{getErrorMessageTimezone()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="40%">
+                                    <mat-form-field floatLabel="always" class="labelWidth">
+                                        <!--<input matInput placeholder="Ethnicity" formControlName="ethnicity">-->
+                                        <mat-select placeholder="Ethnicity" formControlName="ethnicity">
+                                            <mat-option color="accent" *ngFor="let cboData of arrayEthnicity" [value]="cboData.viewValue">
+                                                {{cboData.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="intermediateForm.controls.ethnicity.invalid">{{getErrorMessageEthnicity()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                
+                            </div>
+                        </form>
+                    </mat-card-content>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="end" class="matcardAction">
+                    <div [class]="theme">
+                        <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+                        <button [disabled]="intermediateForm.invalid" mat-raised-button color="accent" matStepperNext>Next</button>
+                    </div>
+                </div>
+            </mat-step>
+            <!-- Step 2 of Member Information -->
+
+<!-- Step 3 -->
+<mat-step [stepControl]="healthInfoForm">
+        <div fxLayout="row" fxLayout.xs="column" class="formRow displayIErefer" fxLayoutWrap fxLayoutAlign="start">
+            <mat-card-content class="labelWidth">
+                <form [formGroup]="healthInfoForm">
+                    <ng-template matStepLabel>Health Info</ng-template>
+                    <div class="flex-rows" fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                        <div fxFlex="50%">
+                                <label class="wrap-mat-radio-label">How often member leaves home ? </label>
+                        </div>
+                        <div fxFlex="48%">
+                            <mat-form-field class="labelWidth">
+                                <mat-select formControlName="healthInfoHowOften">
+                                    <mat-option color="accent" *ngFor="let cboData of arrayLeavesHome" [value]="cboData.viewValue">
+                                    {{cboData.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="flex-rows" fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                            <div fxFlex="50%">
+                                    <label class="wrap-mat-radio-label">Has no one to talk to ?</label>
+                            </div>
+                            <div fxFlex="48%">
+                                <mat-radio-group placeholder="Has no one to talk to" formControlName="healthInfoHasNoOne">
+                                    <mat-radio-button class="healthInfoRadioButtons" value="Yes">Yes</mat-radio-button>
+                                    <mat-radio-button class="healthInfoRadioButtons" value="No">No</mat-radio-button>
+                                    <mat-radio-button class="healthInfoRadioButtons" value="UNK">Don't Know</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                    </div>
+                    <div class="flex-rows" fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                            <div fxFlex="50%">
+                                    <label class="wrap-mat-radio-label">Live Alone ? </label>
+                            </div>
+                            <div fxFlex="48%">
+                                <mat-radio-group placeholder="Lives Alone" formControlName="healthInfoLiveAlone">
+                                    <mat-radio-button class="healthInfoRadioButtons" value="Yes">Yes</mat-radio-button>
+                                    <mat-radio-button class="healthInfoRadioButtons" value="No">No</mat-radio-button>
+                                    <mat-radio-button class="healthInfoRadioButtons" value="UNK">Don't Know</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                    </div>
+                    <div class="flex-rows" fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                            <div fxFlex="50%">
+                                    <label class="wrap-mat-radio-label">Any Social Support?</label>
+                            </div>
+                            <div fxFlex="48%">
+                                <mat-radio-group placeholder="Any Social Support" formControlName="healthInfoHasSupport">
+                                    <mat-radio-button class="healthInfoRadioButtons" value="Yes">Yes</mat-radio-button>
+                                    <mat-radio-button class="healthInfoRadioButtons" value="No">No</mat-radio-button>
+                                    <mat-radio-button class="healthInfoRadioButtons" value="UNK">Don't Know</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                    </div>
+                    <div class="flex-rows" fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                            <div fxFlex="50%">
+                                    <label class="wrap-mat-radio-label">Member appears to be critical?</label>
+                            </div>
+                            <div fxFlex="48%">
+                                <mat-radio-group placeholder="Red Flag" formControlName="healthInfoMemberCritical">
+                                    <mat-radio-button class="healthInfoRadioButtons" value=true>Yes</mat-radio-button>
+                                    <mat-radio-button class="healthInfoRadioButtons" value=false>No</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                    </div>
+                    <div class="flex-rows" fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                            <div fxFlex="50%">
+                                    <label class="wrap-mat-radio-label">Health Status Date</label>
+                            </div>
+                            <div fxFlex="48%">
+                                    <mat-form-field style="width:100%">
+                                            <input matInput [max]="maxDate" [matDatepicker]="statusDatePicker" formControlName="healthInfoStatusDate">
+                                            <mat-datepicker-toggle matSuffix [for]="statusDatePicker"></mat-datepicker-toggle>
+                                            <mat-datepicker #statusDatePicker></mat-datepicker>
+                                        </mat-form-field>
+                            </div>
+                    </div>
+                </form>
+            </mat-card-content>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="end" class="matcardAction">
+        <div [class]="theme">
+            <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+            <button [disabled]="healthInfoForm.invalid" mat-raised-button color="accent" matStepperNext>Next</button>
+        </div>
+        </div>
+</mat-step>
+<!-- Step 3 -->
+
+            <mat-step [stepControl]="referralForm">
+                <div fxLayout="row" fxLayout.xs="column" class="formRow displayIErefer" fxLayoutWrap fxLayoutAlign="start">
+                    <mat-card-content class="labelWidth">
+                        <form [formGroup]="referralForm">
+                            <ng-template matStepLabel>Member Referral</ng-template>
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                                <div fxFlex="33%">
+                                    <mat-form-field floatLabel="always" style="width:100%">
+                                        <input matInput placeholder="Referee Name" formControlName="refName" value="{{firstName}}">
+                                        <mat-error *ngIf="referralForm.controls.refName.invalid">{{getErrorMessageRefName()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="40%">
+                                    <mat-form-field floatLabel="always" style="width:100%">
+                                        <input matInput placeholder="Referee Email" formControlName="refEmail" value="{{email}}">
+                                        <mat-error *ngIf="referralForm.controls.refEmail.invalid">{{getErrorMessageRefEmail()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="23%">
+                                    <mat-form-field floatLabel="always" class="labelWidth">
+                                        <input matInput [textMask]="mask" minlength="14" placeholder="Contact Number" formControlName="refPhoneNumber" value="{{phoneNumber}}">
+                                        <mat-error class="marginLeft" *ngIf="referralForm.controls.refPhoneNumber.invalid">{{getErrorMessageRefPhoneNumber()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                                <div fxFlex="30%">
+                                    <mat-form-field class="example-full-width" floatLabel="always" class="labelWidth">
+                                        <mat-select placeholder="Source" formControlName="source">
+                                            <mat-option color="accent" *ngFor="let cboData of arrayReferralSource" [value]="cboData.viewValue">
+                                            {{cboData.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="referralForm.controls.source.invalid">{{getErrorMessageRefSource()}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutWrap fxLayoutAlign="start">
+                                <div fxFlex="100%">
+                                    <mat-form-field class="example-full-width" floatLabel="always" class="labelWidth">
+                                        <textarea matInput placeholder="Notes for the connector/phonepal..." formControlName="refMemberNotes"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-card-content>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="end" class="matcardAction">
+                    <div [class]="theme">
+                        <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+                        <button (click)="referMember()" [disabled]="memberForm.invalid || memberSearchForm.invalid || intermediateForm.invalid || referralForm.invalid "mat-raised-button color="accent" matStepperNext>Enroll Member</button>
+                    </div>
+                </div>
+            </mat-step>
+        </mat-horizontal-stepper>
+    </mat-card>
+</div>

@@ -1,0 +1,40 @@
+@import "../../../../sass_styles/_variables.scss";
+.content-header {
+    color: $color-dark !important;
+    position: relative;
+    padding: 15px 0px 0 0px;
+
+    > h1 {
+        margin: 0;
+        font-size: 24px;
+        color: $color-dark !important;
+        > small {
+            font-size: 15px;
+            font-weight: 300;
+            padding-left: 4px;
+            display: inline-block;
+        }        
+    }
+    
+    > .breadcrumb {
+        top: 15px;
+        right: 10px;
+        float: right;
+        margin-top: 0;
+        font-size: 12px;
+        margin-bottom: 0;    
+        padding: 7px 5px;    
+        border-radius: 2px;
+        color: $color-dark !important;
+        position: absolute;
+        background: transparent;
+
+        a:link,
+        a:visited,
+        a:hover,
+        a:active{
+            color: $color-dark;
+        }
+    }    
+}
+

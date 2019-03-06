@@ -1,0 +1,65 @@
+.mat-dialog-container{
+    padding: 0px !important;
+}
+
+.textColor{
+    color: white;
+}
+
+.boldText{
+    font-weight:600; 
+    font-style: italic;
+}
+
+.mat-column-memberId {
+    flex: 0 0 8vw !important;
+}
+
+.mat-column-selected {
+    flex: 0 0 10px !important;
+}
+
+.lableWidth {
+    width: 100% !important;
+}
+
+.checkBoxWidth{
+    width: 25px !important;
+}
+.assignRow{
+    margin: -15px;
+    margin-bottom: 10px;
+    height: 75px;
+    padding: 1vh 0vh 1vh 0vh !important;
+    bottom: -1em;
+    position: relative;
+}
+
+.tableRow{
+    padding: 1vh 0vh 1vh 0vh !important;
+    margin: -15px;
+}
+
+.assignBtn{
+    position: relative;
+    top: -.35em;
+}
+
+.mat-column-gender {
+    display: flex !important;
+    justify-content: center !important;
+    flex: 0 0 10vw !important;
+}
+
+.buttonClass{
+    min-width: 45px;
+    line-height: 10px;
+    padding: 10px 7px!important;
+    margin-top: 10px !important;
+}
+
+.UnassignButton{
+    min-width: 45px;
+    line-height: 10px;
+    padding: 10px 7px!important;
+}

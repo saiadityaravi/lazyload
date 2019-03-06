@@ -1,0 +1,323 @@
+// Importing custom Theme for Togetherness
+@import "../../../../sass_styles/_customTheme.scss";
+// Importing the style variables 
+@import "../../../../sass_styles/_variables.scss";
+// Importing reusable mixins 
+@import "../../../../sass_styles/_mixins.scss";
+#wrap {
+    background: $content-background;
+}
+
+#main {
+    overflow: auto;
+    padding-bottom: 150px;
+    /* this needs to be bigger than footer height*/
+}
+
+.container-fluid {
+    background: $content-background;
+}
+
+.content-header {
+    color: $color-dark;
+    position: relative;
+    padding: 15px 0px 0 0px;
+    >h1 {
+        margin: 0;
+        font-size: 24px;
+        color: $color-dark;
+        >small {
+            font-size: 15px;
+            font-weight: 300;
+            padding-left: 4px;
+            display: inline-block;
+        }
+    }
+    >.breadcrumb {
+        top: 15px;
+        right: 10px;
+        float: right;
+        margin-top: 0;
+        font-size: 12px;
+        margin-bottom: 0;
+        padding: 7px 5px;
+        border-radius: 2px;
+        color: $color-dark;
+        position: absolute;
+        background: transparent;
+        a:link,
+        a:visited,
+        a:hover,
+        a:active {
+            color: $color-dark;
+        }
+    }
+}
+
+.tab-content {
+    background: $color-white;
+    height: 80vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.nav-tabs-custom {
+    margin-top: 15px;
+    font-size: $font-size-medium;
+}
+
+.nav-tabs>li.active {
+    background: #fff;
+    border-top: 3px solid $toolbar-color-primary;
+}
+
+.nav-tabs-custom>.nav-tabs>li>a,
+.nav-tabs-custom>.nav-tabs>li>a:hover {
+    background: transparent;
+    margin: 0;
+    padding: 5px 10px;
+}
+
+.nav-tabs-custom>.nav-tabs>li>a {
+    color: #444;
+    border-radius: 0;
+}
+
+.nav-tabs>li.active>a {
+    border-left: #fff;
+}
+
+// timeline
+.timeline-wrapper {
+    margin-left: 35px;
+    padding-top: 19px;
+    ul.timeline {
+        border-left: 3px solid #ddd;
+        .timeline-item-container {
+            margin-top: -12px;
+            .timeline-item {
+                border-top: 0px;
+                padding: 12px;
+                .time {
+                    margin-top: -6px;
+                    color: #b9b9b9;
+                    .mat-icon {
+                        font-size: 1em;
+                        margin-right: -13px;
+                    }
+                }
+                h3 {
+                    position: relative;
+                    top: -9px;
+                    padding: 0px 0px 4px 0px;
+                    margin-top: 4px;
+                    font-weight: bold;
+                    font-size: 15px !important;
+                    border-bottom: 1px solid #ddd;
+                }
+                .timeline-body {
+                    position: relative;
+                    top: -3px;
+                }
+                .timeline-history {
+                    position: relative;
+                    right: 60px;
+                    .mat-icon {
+                        top: 6px;
+                        font-size: 15px !important;
+                        left: 3px;
+                        position: relative;
+                        padding: 7px;
+                        background: #ccc;
+                        border-radius: 50%;
+                        height: 30px;
+                        width: 30px;
+                        text-align: right;
+                        color: #787878;
+                        padding: 7px;
+                    }
+                }
+            }
+        }
+        .timeline-icon {
+            position: relative;
+            border-radius: 50%;
+            top: 39px;
+            right: 56px;
+            color: #fff;
+            background-color: #0073b7 !important;
+            padding: 6px;
+            .content-icon {
+                top: 4px;
+                right: 8px;
+                font-size: 1.2em;
+                padding: 8px;
+            }
+        }
+        .timeline-item {
+            width: 98%;
+            margin-left: -15px;
+            .time {
+                float: right;
+            }
+            background:#f0f0f0;
+        }
+        .timeline-history {
+            position: relative;
+            right: 60px;
+            .mat-icon {
+                top: 6px;
+                left: 3px;
+                position: relative;
+                padding: 2.5px 3px 2px 3.5px;
+                background: #ccc;
+                border-radius: 50%;
+                height: 30px;
+                width: 30px;
+                text-align: right;
+                color: #787878;
+            }
+        }
+    }
+    ul li:nth-child(odd) {
+        .time-label {
+            margin-left: -71px;
+            .bg-red {
+                padding: 9px;
+                border-radius: 4px; // background:red !important;
+            }
+        }
+    }
+    ul li:nth-child(even) {
+        .time-label {
+            margin-left: -71px;
+            .bg-red {
+                padding: 9px;
+                border-radius: 4px;
+                background: green !important;
+            }
+        }
+    }
+    .timeline-footer {
+        padding-top: 20px;
+    }
+}
+
+// timeline
+// Material Cards styles added for Member Details and About Member sections
+.mat-card {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background: $color-white;
+    border-top: 3px solid $toolbar-color-primary;
+    .mat-card-title {
+        font-size: 21px;
+        text-align: center;
+        .about-member-title {
+            float: left;
+            width: 100%;
+            text-align: left;
+            padding-bottom: 6px;
+            margin-left: -5px;
+            font-size: $font-size-base !important;
+        }
+    }
+    .mat-card-subtitle {
+        font-size: $font-size-medium;
+        text-align: center;
+    }
+    .mat-card-content {
+        .notes-text {
+            margin-left: -6px;
+            font-size: $font-size-medium;
+        }
+    }
+    .mat-card-actions {
+        .mat-flat-button {
+            min-width: 65px;
+            line-height: 29px;
+            color: $color-dark;
+            border-color: #ddd; //background-color:#e7e7e7;
+            font-size: $font-size-light;
+        }
+    }
+    hr {
+        margin: 6px 0px 9px 0px;
+    }
+}
+
+.about_member {
+    .mat-card-content {
+        .row {
+            p {
+                margin-left: -6px;
+            }
+        }
+    }
+}
+
+.member_details {
+    height: 167px;
+    padding: 12px 5px !important;
+}
+
+.about_member {
+    padding: 12px 15px !important;
+}
+
+.bg-red,
+.callout.callout-danger,
+.alert-danger,
+.alert-error,
+.label-danger,
+.modal-danger .modal-body {
+    color: #fff;
+    background-color: #dd4b39 !important;
+}
+
+.bg-gray {
+    .mat-icon {
+        color: #737070;
+        margin: 3px 0px 3px 2px;
+    }
+}
+
+.bg-aqua,
+.callout.callout-info,
+.alert-info,
+.label-info,
+.modal-info .modal-body {
+    color: #fff;
+    background-color: #00c0ef !important;
+}
+
+@include scrollbars(.5em, slategray);
+.content-icon {
+    position: relative;
+    width: 10px !important;
+    height: 10px !important;
+    top: 3px;
+    right: 10px;
+    line-height: 9px;
+    font-size: 1.5em;
+}
+
+::-webkit-scrollbar {
+    display: block !important;
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #878787;
+    border-radius: 15px;
+}
+
+.timeline {
+    li {
+        list-style: none;
+    }
+}
+
+.fontSize{
+    font-size: 18px !important;
+}

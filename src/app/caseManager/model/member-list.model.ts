@@ -1,0 +1,42 @@
+// Member List model class
+export interface MemberList {
+    id: string;
+    memberId: string;
+    title: string;
+    firstName: string;
+    lastName: string;
+    effectiveDt: string;
+    terminationDt: string;
+    eligibilityStatus: string;
+    productPlan: string;
+    preferredLanguage: string;
+    memberTimeZone: string;
+    gender: string;
+    birthDate: string;
+    address1: string;
+    address2: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    ethnicity: string;
+    phoneNumber: string;
+    alternatePhoneNum: string;
+    memberPCPName: string;
+    memberPCPPhoneNum: string;
+    additionalComment: string;
+    clientId: string;
+    subClientId: string;
+    createdDt: string;
+    createdBy: string;
+    updatedDt: string;
+    updatedBy: string;
+    memberReferralId: string;
+    date: string;
+    source: string;
+    alias: string;
+    refereeName: string;
+    contactNumber: string;
+    email: string;
+    notes: string;
+    actions: null
+}

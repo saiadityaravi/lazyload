@@ -1,0 +1,20 @@
+[
+    {
+        "id":  "cm123",
+        "name": "Caremore connector",
+        "user_role": "connector",
+        "logged_in": "false"
+    },
+    {
+        "id":  "cm456",
+        "name": "Caremore Case Manager",
+        "user_role": "caseManager",
+        "logged_in": "false"
+    },
+    {
+        "id":  "cm789",
+        "name": "Caremore Phonepal",
+        "user_role": "phonePal",
+        "logged_in": "true"
+    }
+]

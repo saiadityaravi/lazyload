@@ -1,0 +1,532 @@
+/* You can add global styles to this file, and also import other style files */
+
+/** 
+* Include the Global Styles
+*/
+
+// Importing the prebuilt theme for the Angular Material can add custom themes too
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+// Importing the style variables 
+@import "./_variables.scss";
+@import "./_mixins.scss";
+@import "./_customTheme.scss";
+@import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+$fa-font-path: "../../node_modules/font-awesome/fonts";
+@import "../../node_modules/font-awesome/scss/font-awesome.scss";
+
+ @import "../../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css";
+// bootstrap style toast 
+// or import a bootstrap 4 alert styled design (SASS ONLY) 
+// should be after your bootstrap imports, it uses bs4 variables, mixins, functions 
+@import '../../node_modules/ngx-toastr/toastr.css';
+ 
+
+body {
+    color: $font-color;
+    font-size: $font-size-base;
+    font-family: $app-font-stack !important;
+    font-weight: $font-weight-regular;
+    height: 100vh;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+body {
+    background-color: $color-white;
+}
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#loader {
+    display: block;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #9370DB;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+#loader:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #BA55D3;
+    -webkit-animation: spin 3s linear infinite;
+    animation: spin 3s linear infinite;
+}
+
+#loader:after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #FF00FF;
+    -webkit-animation: spin 1.5s linear infinite;
+    animation: spin 1.5s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+h1 {
+    color: $font-color-h2;
+    font-size: 24px;
+    font-weight: $font-weight-medium;
+}
+
+h2 {
+    color: $font-color-h2;
+    font-size: 18px;
+    font-weight: $font-weight-medium;
+}
+
+h3 {
+    color: $font-color;
+    font-size: 16px;
+    font-weight: $font-weight-light;
+}
+
+label {
+    font-size: $font-size-base - 2;
+}
+
+.mat-input-element {
+    font-size: .9em !important;
+}
+
+.material-icons {
+    font-feature-settings: 'liga';
+}
+
+.loading-shade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1080;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ActivitiesDiv {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis !important;
+}
+
+$grid-breakpoints: ( xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px);
+@media only screen and (min-width: 992px) {
+    .col-md-12 {
+        width: 100%
+    }
+    .col-md-11 {
+        width: 91.666667%
+    }
+    .col-md-10 {
+        width: 83.3333333%
+    }
+    .col-md-9 {
+        width: 75%
+    }
+    .col-md-8 {
+        width: 66.66666667%
+    }
+    .col-md-7 {
+        width: 58.33333333%
+    }
+    .col-md-6 {
+        width: 50%
+    }
+    .col-md-5 {
+        width: 41.66666667%;
+    }
+    .col-md-4 {
+        width: 33.3333333%
+    }
+    .col-md-3 {
+        width: 25%
+    }
+    .col-md-2 {
+        width: 16.66666667%;
+    }
+    .col-md-1 {
+        width: 8.3333333%
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .col-xs-12 {
+        width: 100%
+    }
+}
+
+.mat-form-field-infix {
+    width: 100% !important;
+    caret-color: black;
+}
+
+input {
+    caret-color: black !important;
+}
+
+// .mat-form-field-label{
+//     font-size: 1 + $font-size-base !important;
+// }
+.mat-form-field-label {
+    color: black !important;
+}
+
+.bs-datepicker-body table td span.disabled,
+.bs-datepicker-body table td.disabled span {
+    color: #d7dadc !important;
+}
+
+.mat-header-cell {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: black !important;
+    font-family: $app-font-stack;
+}
+
+.mat-form-field-underline {
+    background-color: rgba(0, 0, 0, .42) !important;
+}
+
+.mat-select-value {
+    color: rgba(0, 0, 0, .87) !important;
+}
+
+.mat-form-field-ripple {
+    visibility: hidden !important;
+}
+
+.mat-toolbar-multiple-rows {
+    height: 50px !important;
+    min-height: auto !important;
+}
+
+.mat-option {
+    color: black !important;
+}
+
+.mat-horizontal-stepper-header-container {
+    padding: 10px 100px 30px 100px;
+}
+
+.mat-horizontal-content-container {
+    overflow: hidden;
+    padding: 0px 0px 0px 0px !important;
+}
+
+.mat-horizontal-stepper-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: -15px;
+}
+
+.mat-step-label {
+    position: relative;
+    top: 10px;
+}
+
+.mat-stepper-horizontal-line {
+    margin: 0 -30px !important;
+}
+
+.mat-horizontal-stepper-header .mat-step-icon,
+.mat-horizontal-stepper-header .mat-step-icon-not-touched {
+    margin-right: 0 !important;
+}
+
+mat-header-cell {
+    display: flex;
+    justify-content: center;
+    opacity: 1 !important;
+}
+
+.mat-paginator-container {
+    padding: 0px !important;
+}
+
+.mat-paginator-range-label {
+    margin: 0px !important;
+}
+
+.mat-paginator-range-actions {
+    align-items: baseline !important
+}
+
+.mat-dialog-container {
+    padding: 0px !important; //width: 620px !important;
+}
+
+.mat-tab-label {
+    padding: 0px !important;
+}
+
+.mat-form-field {
+    display: block !important;
+}
+
+.mat-tab-body-wrapper {
+    padding: 10px !important;
+    background: #ffffff !important;
+}
+
+.btn-toolbar {
+    line-height: 49px !important;
+    background-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background: $tab-highlight-color;
+}
+
+.dialog-tab-group {
+    padding: 12px 6px 6px 6px!important;
+    background: #eeeeee !important;
+    .mat-tab-label-active {
+        background-color: #ffffff !important;
+        opacity: 1 !important;
+    }
+}
+
+.dialog-tab-group .mat-ink-bar,
+.dialog-tab-group .mat-ink-bar {
+    top: 0px !important;
+}
+
+.dialog-sub-tab-group .mat-ink-bar,
+.dialog-sub-tab-group .mat-ink-bar {
+    top: 30px !important;
+}
+
+.header-user-menu {
+    position: relative;
+    top: 45px !important;
+    overflow: hidden !important;
+    left: 32px !important;
+    .mat-menu-content {
+        padding: 0x !important;
+    }
+    .menu-item {
+        width: 300px;
+        height: 150px;
+        color: #ffffff;
+        padding: 47px 0px 0px 60px;
+        background: $tab-highlight-color;
+        span.sub-text {
+            display: block;
+            font-size: 11px;
+            margin-top: -30px;
+        }
+    }
+    .menu-item:hover {
+        background: $tab-highlight-color;
+    }
+}
+
+.header-icon-menu{
+    color:#000;
+    padding:3px;
+    position: relative;
+    top:45px !important;
+    width: 255px !important;
+
+    .menu-item{
+        font-size:11px;
+        padding: 10px 5px;
+    }
+
+    .design-progress{
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+
+        .mat-progress-bar{
+            padding: 8px 0px;
+        }
+
+        .mat-icon{
+            font-size:22px;
+        }
+
+        .message{
+            position:relative;
+            top:-4px;
+            left:10px;
+        }
+
+        .menu-img{
+            padding-right: 5px;
+            img{
+                float:left;
+                width:40px;
+                height:40px;
+                margin-top:-6px;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .view-tasks{
+        text-align:center;
+    }
+}
+
+.mat-menu-content {
+    padding: 0px !important;
+}
+
+.mat-tab-label {
+    padding: 6px !important;
+    height: auto !important;
+    min-width: auto !important;
+    margin: 0px 17px 0px 0px !important;
+}
+
+.dialog-input {
+    padding: 6px !important;
+    border-radius: 4px !important;
+    border: 1px solid #d0d0d0 !important;
+}
+
+.mat-toolbar-single-row {
+    font-size: 18px !important;
+    height: 45px !important;
+}
+
+.mat-fab.mat-primary,
+.mat-mini-fab.mat-primary,
+.mat-raised-button.mat-primary {
+    background: $tab-highlight-color;
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background: $tab-highlight-color;
+}
+
+.breadcrumb {
+    float: right;
+    background: transparent;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    padding: 7px 5px;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    border-radius: 2px;
+}
+
+.mat-form-field-label {
+    font-size: 1+ $font-size-base !important;
+}
+
+.no-border{
+    border:none;
+    box-shadow:none;
+}
+
+.form-select-label{
+    top: 14px;
+    position:relative;
+}
+
+.form-select{
+    padding:0px;
+    margin-bottom:0px;
+    .mat-form-field-infix{
+        padding:0px;
+        font-size:12px;
+    }
+    .mat-form-field{
+        top:-8px;
+    }
+}
+
+.mat-form-field-wrapper{
+    padding-bottom: 1.1em !important;
+}
+
+.mat-card-footer{
+    margin: -5px -24px -24px -24px !important;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .member-interaction-card{
+        width: 620px;
+    }
+ }
+
+ .bs-datepicker-container {
+    padding: 0px !important;
+}
+
+bs-datepicker-navigation-view > button{
+    color: #000 !important;
+}
+
+.bs-datepicker-head{
+    background-color: inherit !important;
+}
+
+td > span[class*="selected"]{
+    background-color: #e8eaf6 !important;
+    color: inherit !important;
+    border: 1px solid #565d82 !important;
+}

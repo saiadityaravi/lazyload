@@ -1,0 +1,56 @@
+@import '~@angular/material/theming';
+
+// Plus imports for other components in your app.
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+@import '../app/landingpage/landingpage/landingpage.component-theme.scss';
+@import '../app/phonePal/components/Profile/profile.component-theme.scss';
+@import '../app/phonePal/components/dialog-member-interaction/dialog-member-interaction.component-theme.scss';
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$togethernessLandingPage-app-primary: mat-palette($mat-deep-purple, 500);
+$togethernessLandingPage-app-accent : mat-palette($mat-deep-purple, 800, A100, A400);
+// The warn palette is optional (defaults to red).
+$togethernessLandingPage-app-warn : mat-palette($mat-red);
+// Create the theme object (a Sass map containing all of the palettes).
+$togethernessLandingPage-app-theme: mat-light-theme($togethernessLandingPage-app-primary, $togethernessLandingPage-app-accent, $togethernessLandingPage-app-warn);
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+$togetherness-app-primary: mat-palette($mat-indigo, 50);
+$togetherness-app-accent : mat-palette($mat-indigo, 500, A100, A400);
+// The warn palette is optional (defaults to red).
+$togetherness-app-warn : mat-palette($mat-red);
+// Create the theme object (a Sass map containing all of the palettes).
+$togetherness-app-theme: mat-light-theme($togetherness-app-primary, $togetherness-app-accent, $togetherness-app-warn);
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+
+$togetherness-member-dialog-primary: mat-palette($mat-indigo, 500);
+$togetherness-member-dialog-accent: mat-palette($mat-gray, 200);
+$togetherness-member-dialog-theme: mat-light-theme($togetherness-member-dialog-primary, $togetherness-member-dialog-accent);
+
+.landingpageTheme {
+    @include angular-material-theme($togethernessLandingPage-app-theme);
+}
+
+.landingpageowncomponentsTheme {
+    @include landingpage-theme($togethernessLandingPage-app-theme)
+}
+
+.togethernessapptheme {
+    @include angular-material-theme($togetherness-app-theme);
+}
+
+.profilepagetheme {
+    @include profilepage-theme($togetherness-app-theme)
+}
+
+.memberdialogtheme{
+    @include member-dialog-theme($togetherness-app-theme);
+}

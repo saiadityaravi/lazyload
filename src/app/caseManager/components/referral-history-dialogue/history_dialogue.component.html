@@ -1,0 +1,67 @@
+<div [class]="theme">
+    <div [class]="theme2">
+        <mat-toolbar color="accent">
+            <mat-toolbar-row>
+                <div class="col-md-11 textColor">
+                    <span>Referral History</span>
+                </div>
+                <div class="col-md-1 cursorPointer">
+                    <mat-icon (click)=close()>close</mat-icon>
+                </div>
+            </mat-toolbar-row>
+        </mat-toolbar>
+    </div>
+    <mat-card class="matcardbackground">
+        <div class="row matcardRowBackground">
+            <mat-table #table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="refereeName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Referre Name
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let referre">
+                        {{referre.refereeName}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="source">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Source
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let referre"> {{referre.source}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="hasNooneToTalkTo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Anyone to talk?
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let referre"> {{referre.hasNooneToTalkTo}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="howOftenMemberLeaveHome">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Leaves home ?
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let referre"> {{referre.howOftenMemberLeaveHome}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="anySocialSupport">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Social support
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let referre"> {{referre.anySocialSupport}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="liveAlone">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Lives alone ?
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let referre"> {{referre.liveAlone}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="redFlag">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Is critical
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let referre"> {{referre.redFlag}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="createdDt">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Referred Date
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let referre"> {{referre.createdDt | dateformat}} </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+
+            <mat-paginator [pageSize]="8" [hidePageSize]="true" showFirstLastButtons></mat-paginator>
+
+        </div>
+    </mat-card>
+</div>

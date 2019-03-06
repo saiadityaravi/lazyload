@@ -1,0 +1,71 @@
+.demo-toolbar{
+    float:right;
+    width:100%;
+    text-align:right;
+}
+
+.demo-toolbar a:link,
+.demo-toolbar a:visited,
+.demo-toolbar a:hover,
+.demo-toolbar a:active{
+    cursor:pointer;
+    text-decoration: none;
+}
+
+.example-full-width{
+    width: 100%;
+}
+
+.demo-toolbar span{
+    color:#fff;
+    cursor: pointer;
+}
+
+.timepicker{
+    .glyphicon-time{
+        top: 5px;
+        right: 3px;
+        position: absolute;
+    }
+}
+
+.btn-phonepal-interaction{
+    margin: -10px 24px 8px 0px;
+    float: right;
+}
+
+.call-details{
+    float: left;
+    width: 95%;
+    margin-left: 13px;
+    padding-top: 10px;
+    background: #fff;
+    border-radius: 13px;
+
+    div{
+        padding: 0px 3px;
+    }
+}
+
+.btn-close{
+    margin: 9px 24px;
+    float: left;
+}
+
+.member-interaction-card{
+    width: 620px !important;
+    margin-top: 0px !important;
+    box-shadow: none !important;  
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+.mat-form-field-wrapper{
+    padding-bottom: 1em !important;
+}
+.form-group {
+    margin-bottom: 0px !important;  
+}
+.mat-form-field-wrapper {
+    padding-bottom: 0.9em !important;
+}

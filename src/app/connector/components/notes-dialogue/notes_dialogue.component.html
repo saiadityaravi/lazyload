@@ -1,0 +1,25 @@
+<div [class]="theme">
+        <div class="loading-shade" *ngIf="isLoadingResults">
+                <mat-spinner color="accent" *ngIf="isLoadingResults"></mat-spinner>
+            </div>
+    <div [class]="theme2">
+        <mat-toolbar color="accent">
+            <mat-toolbar-row>
+                <div class="col-md-11 textColor">
+                    <span>Member Notes</span>
+                </div>
+                <div class="col-md-1" style="cursor:pointer">
+                    <mat-icon (click)=close()>close</mat-icon>
+                </div>
+            </mat-toolbar-row>
+        </mat-toolbar>
+    </div>
+    <mat-card class="matcardbackground">
+        <div class="row" style="margin:-15px !important; background: white;padding: 15px;
+            border-radius: 6px;">
+           <div style=" word-break: break-word">
+            {{notesDisplay}}
+           </div>
+        </div>
+    </mat-card>
+</div>

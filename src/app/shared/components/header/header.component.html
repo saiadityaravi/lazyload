@@ -1,0 +1,52 @@
+<header [class]="theme">
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <div class="header-logo"><b>{{ domainText }}</b> <span>Health</span></div>
+
+            <button *ngIf="role=='ROLE_connector'" [routerLink]="['/connector/']" [routerLinkActiveOptions]="{ exact: true }"
+                routerLinkActive="btn-toolbar" class="focus-overlay" mat-button>Home</button>
+            <button *ngIf="role=='ROLE_connector'" [routerLink]="['/connector/phonepal']" class="focus-overlay"
+                routerLinkActive="btn-toolbar" mat-button>Phonepal</button>
+            <button *ngIf="role=='ROLE_connector'" [routerLink]="['/connector/member']" class="focus-overlay"
+                routerLinkActive="btn-toolbar" mat-button>Member</button>
+            <button *ngIf="role=='ROLE_casemanager'" [routerLink]="['/casemanager/']" [routerLinkActiveOptions]="{ exact: true }"
+                routerLinkActive="btn-toolbar" class="focus-overlay" mat-button>Home</button>
+            <button *ngIf="role=='ROLE_casemanager'" [routerLink]="['/casemanager/member']" class="focus-overlay"
+                routerLinkActive="btn-toolbar" mat-button>Member</button>
+            
+                <!-- admin toolbar buttons --> 
+            <button *ngIf="role=='ROLE_admin'" [routerLink]="['/admin/']" [routerLinkActiveOptions]="{ exact: true }"
+                routerLinkActive="btn-toolbar" class="focus-overlay" mat-button>Home</button>
+            <button *ngIf="role=='ROLE_admin'" [routerLink]="['/admin/member']" class="focus-overlay"
+            routerLinkActive="btn-toolbar" mat-button>Member</button>
+            <button *ngIf="role=='ROLE_admin'" mat-button [matMenuTriggerFor]="users" class="heightMenu">Users<mat-icon>expand_more</mat-icon></button>
+            <mat-menu  #users="matMenu" [overlapTrigger]=false >
+                <button mat-menu-item [routerLink]="['/admin/casemanagers']">Case Managers</button>
+                <button mat-menu-item [routerLink]="['/admin/connectors']">Connectors</button>
+            </mat-menu>
+            
+
+            <!-- <span class="logged-in-user">Rajat Kumar Agarwal</span> -->
+            <span class="example-spacer"></span>
+            <button class="logged-in-user" mat-icon-button [matMenuTriggerFor]="menu">
+                {{name}}
+            </button>
+            <mat-menu #menu="matMenu" class="header-user-menu">
+                <div mat-menu-item class="menu-item pointerEvents">
+                    {{name}}
+                    <span class="sub-text">{{associateRole}} since {{createdDate | dateformat}}</span>
+                </div>
+                <div class="btn-action" mat-menu-item>
+                    <button class="place_left" routerLink="profile" mat-raised-button>Profile</button>
+                    <button class="place_right" mat-raised-button (click)="signout()">Sign out</button>
+                </div>
+            </mat-menu>
+
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <!-- 
+        <i class="material-icons">face</i>
+        <mat-icon>home</mat-icon> 
+    -->
+</header>

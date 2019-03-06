@@ -1,0 +1,180 @@
+<div class="page-wrapper">
+    <!-- Page-body start -->
+    <div class="page-body">
+        <div class="row">
+            <!-- Stats-card start -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card flex-row align-items-center align-items-stretch border-0">
+                    <div class="col-3 d-flex align-items-center bg-primary-dark justify-content-center rounded-left">
+                        <em class="icon-member"></em></div>
+                    <div class="col-9 py-3 bg-primary rounded-right">
+                        <div class="col-5 left p0">
+                            <div class="h2 mt-0 loading">{{members}} </div>
+                            <div class="text-uppercase">Members</div>
+                        </div>
+                        <div class="col-7 left text-right p0">
+                            <span class="inline-stat">Eligible {{eligible}}</span>
+                            <span class="inline-stat">Not Eligible {{noteligible}}</span>
+                            <span class="inline-stat">Pending {{pending}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card flex-row align-items-center align-items-stretch border-0">
+                    <div class="col-3 d-flex align-items-center bg-purple-dark justify-content-center rounded-left">
+                        <em class="icon-globe fa-3x"></em></div>
+                    <div class="col-9 py-3 bg-purple rounded-right">
+                        <div class="col-6 left p0">
+                            <div class="h2 mt-0 loading">{{connectors}} </div>
+                            <div class="text-uppercase">Connectors</div>
+                        </div>
+                        <div class="col-6 left text-right p0">
+                            <span class="inline-stat">Active {{con_active}}</span>
+                            <span class="inline-stat">Inactive {{con_inactive}}</span>
+                            <span class="inline-stat">Pending {{con_pending}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="card flex-row align-items-center align-items-stretch border-0">
+                    <div class="col-3 d-flex align-items-center bg-purple-dark justify-content-center rounded-left">
+                        <em class="icon-bubbles fa-3x"></em></div>
+                    <div class="col-9 py-3 bg-purple rounded-right">
+                        <div class="col-6 left p0">
+                            <div class="h2 mt-0 loading">{{phonepals}} </div>
+                            <div class="text-uppercase">Phonepals</div>
+                        </div>
+                        <div class="col-6 left text-right p0">
+                            <span class="inline-stat">Active {{pp_active}}</span>
+                            <span class="inline-stat">Inactive {{pp_inactive}}</span>
+                            <span class="inline-stat">Pending {{pp_pending}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="card flex-row align-items-center align-items-stretch border-0">
+                    <div class="col-3 d-flex align-items-center bg-green-dark justify-content-center rounded-left">
+                        <em class="icon-bubbles fa-3x"></em></div>
+                    <div class="col-9 py-3 bg-green rounded-right">
+                        <div class="h2 mt-0 loading">{{casemanagers}}</div>
+                        <div class="text-uppercase">Casemanagers</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Stats-card end -->
+        </div>
+        <div class="row">
+            <!-- map-card start -->
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Member Statistics</h5>
+                        <span class="text-muted">by state and by member status</span>
+                    </div>
+                    <div class="card-block">
+                        <div class="col-md-6 col-xl-5 left">
+                            <div id="vmap" style="height: 400px;overflow: hidden; text-align: left;"></div>
+                        </div>
+                        <div class="col-md-5 col-xl-3 left scrollTable">
+                            <mat-table #table [dataSource]="dataSource" matSort class="tableHeight">
+                                <!-- Position Column -->
+                                <ng-container matColumnDef="State">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header> State </mat-header-cell>
+                                    <mat-cell *matCellDef="let allMemberStats">
+                                        {{allMemberStats.state | uppercase }}
+                                    </mat-cell>
+                                </ng-container>
+                                <ng-container matColumnDef="Eligible">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header> Eligible </mat-header-cell>
+                                    <mat-cell *matCellDef="let allMemberStats">
+                                        <div *ngIf="Eligible!= isEmptyObject(allMemberStats.eligible)  else dispNull">
+                                            {{allMemberStats.eligible | number:'.0'}}
+                                        </div>
+                                        <ng-template #dispNull>
+                                            <div>N/A</div>
+                                        </ng-template>
+                                    </mat-cell>
+                                </ng-container>
+                                <ng-container matColumnDef="NotEligible">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header> Not Eligible </mat-header-cell>
+                                    <mat-cell *matCellDef="let allMemberStats">
+                                        <div
+                                            *ngIf="Eligible!= isEmptyObject(allMemberStats.notEligible)  else dispNull">
+                                            {{allMemberStats.notEligible | number:'.0'}}
+                                        </div>
+                                        <ng-template #dispNull>
+                                            <div>N/A</div>
+                                        </ng-template>
+                                    </mat-cell>
+                                </ng-container>
+                                <ng-container matColumnDef="Pending">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header> Pending </mat-header-cell>
+                                    <mat-cell *matCellDef="let allMemberStats">
+                                        <div *ngIf="Eligible!= isEmptyObject(allMemberStats.pending)  else dispNull">
+                                            {{allMemberStats.pending | number:'.0'}}
+                                        </div>
+                                        <ng-template #dispNull>
+                                            <div>N/A</div>
+                                        </ng-template>
+                                    </mat-cell>
+                                </ng-container>
+                                <ng-container matColumnDef="Total">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header> Total </mat-header-cell>
+                                    <mat-cell *matCellDef="let allMemberStats">
+                                        {{allMemberStats.total | number:'.0'}}
+                                    </mat-cell>
+                                </ng-container>
+                                <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+                                <mat-row *matRowDef="let row;let i = index; columns: displayedColumns; "
+                                    class="rowheight">
+                                </mat-row>
+                            </mat-table>
+                        </div>
+                        <div class="col-md-4 col-xl-3 left">
+                            <div class="row">
+                                <div class="col-md-12" style="height: 200px;overflow: hidden; text-align: left;">
+                                    <donut-chart *ngIf="donutChartConfig" [options]="donutChartConfig"></donut-chart>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" style="height: 200px;overflow: hidden; text-align: left;">
+                                    <pie-chart *ngIf="pieChartConfig" [options]="pieChartConfig"></pie-chart>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- map-card end -->
+        </div>
+        <div class="row">
+            <!-- map-card start -->
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Statistics</h5>
+                        <span class="text-muted"></span>
+                        <div class="card-header-right">
+                            <ul class="list-unstyled card-option">
+                                <li><i class="fa fa-chevron-left"></i></li>
+                                <li><i class="fa fa-window-maximize full-card"></i></li>
+                                <li><i class="fa fa-minus minimize-card"></i></li>
+                                <li><i class="fa fa-refresh reload-card"></i></li>
+                                <li><i class="fa fa-times close-card"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-block">
+                        <div *ngIf="calendarOptions">
+                            <ng-fullcalendar #ucCalendar [options]="calendarOptions"></ng-fullcalendar>
+                        </div>
+                    </div>
+                </div>
+                <!-- map-card end -->
+            </div>
+        </div>
+        <!-- Page-body end -->
+    </div>

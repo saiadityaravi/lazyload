@@ -1,0 +1,106 @@
+<div class="page-wrapper">
+    <!-- Page-body start -->
+    <div class="page-body">
+        <div class="row">
+            <!-- Stats-card start -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card flex-row align-items-center align-items-stretch border-0">
+                    <div class="col-4 d-flex align-items-center bg-primary-dark justify-content-center rounded-left">
+                        <em class="icon-cloud-upload fa-3x"></em></div>
+                    <div class="col-8 py-3 bg-primary rounded-right">
+                        <div class="h2 mt-0 loading">{{assigned}}</div>
+                        <div class="text-uppercase">Assigned</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card flex-row align-items-center align-items-stretch border-0">
+                    <div class="col-4 d-flex align-items-center bg-purple-dark justify-content-center rounded-left">
+                        <em class="icon-globe fa-3x"></em></div>
+                    <div class="col-8 py-3 bg-purple rounded-right">
+                        <div class="h2 mt-0 loading" >{{eligible}} </div>
+                        <div class="text-uppercase">Eligible</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="card flex-row align-items-center align-items-stretch border-0">
+                    <div class="col-4 d-flex align-items-center bg-primary-dark justify-content-center rounded-left">
+                        <em class="icon-bubbles fa-3x"></em></div>
+                    <div class="col-8 py-3 bg-primary rounded-right">
+                        <div class="h2 mt-0 loading">{{noteligible}}</div>
+                        <div class="text-uppercase">Not Eligible</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="card flex-row align-items-center align-items-stretch border-0">
+                    <div class="col-4 d-flex align-items-center bg-green-dark justify-content-center rounded-left">
+                        <em class="icon-bubbles fa-3x"></em></div>
+                    <div class="col-8 py-3 bg-green rounded-right">
+                        <div class="h2 mt-0 loading">{{pending}}</div>
+                        <div class="text-uppercase">Pending</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Stats-card end -->
+        </div>
+        <div class="row">
+            <!-- map-card start -->
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Member Statistics</h5>
+                        <span class="text-muted">by state and by member status</span>
+                        <!--<div class="card-header-right">
+                            <ul class="list-unstyled card-option">
+                                <li><i class="fa fa-chevron-left"></i></li>
+                                <li><i class="fa fa-window-maximize full-card"></i></li>
+                                <li><i class="fa fa-minus minimize-card"></i></li>
+                                <li><i class="fa fa-refresh reload-card"></i></li>
+                                <li><i class="fa fa-times close-card"></i></li>
+                            </ul>
+                        </div>-->
+                    </div>
+                    <div class="card-block">
+                        <div class="col-md-8 col-xl-6 left">
+                                <div id="vmap" style="height: 400px;overflow: hidden; text-align: left;"></div>
+                        </div>
+                        <div class="col-md-4 col-xl-6 left" style="height: 400px;overflow: hidden; text-align: left;">
+                                <!--<doughnut-chart *ngIf="doughnutChartConfig" [config]="doughnutChartConfig"></doughnut-chart>-->
+                                <pie-chart *ngIf="pieChartConfig" [options]="pieChartConfig"></pie-chart>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- map-card end -->
+        </div>
+        <div class="row">
+            <!-- map-card start -->
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Statistics</h5>
+                        <span class="text-muted"></span>
+                        <div class="card-header-right">
+                            <ul class="list-unstyled card-option">
+                                <li><i class="fa fa-chevron-left"></i></li>
+                                <li><i class="fa fa-window-maximize full-card"></i></li>
+                                <li><i class="fa fa-minus minimize-card"></i></li>
+                                <li><i class="fa fa-refresh reload-card"></i></li>
+                                <li><i class="fa fa-times close-card"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-block">
+                        <div id="visitor-list-graph" style="height: 400px; overflow: hidden; text-align: left;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- map-card end -->
+        </div>
+    </div>
+    <!-- Page-body end -->
+</div>

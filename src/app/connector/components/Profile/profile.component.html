@@ -1,0 +1,31 @@
+<div [class]="theme">
+    <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-9">
+            <div class="divMargin">
+                <mat-card style="border-radius:6px">
+                    <mat-card-header>
+                        <div mat-card-avatar class="header-image"></div>
+                        <mat-card-title>
+                            <h4>Edit Profile - <small class="category">Update your profile</small></h4>
+                        </mat-card-title>
+                        <mat-card-subtitle>
+                            <small class="category" [ngClass]="{'text-success' : status=='Approved', 'text-warning' : status=='Pending', 'text-danger' : status=='Denied'}">{{statusText}}</small>
+                         </mat-card-subtitle>
+                    </mat-card-header>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <mat-card-content>
+                                <app-phonepal-profile></app-phonepal-profile>
+                            </mat-card-content>
+                        </div>
+                    </div>
+                    <mat-card-actions style="text-align: right;">
+                        <button mat-raised-button color="primary" (click)="updateProfile()">Update Profile</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+</div>

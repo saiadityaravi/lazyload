@@ -1,0 +1,119 @@
+<div [formGroup]="enrollForm" class="formMargin">
+    <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+    <div class="loading-shade" *ngIf="isLoadingResults1">
+            <mat-spinner color="accent" *ngIf="isLoadingResults1"></mat-spinner>
+        </div>
+    <div class="row">
+        <div class="col-md-4">
+            <mat-form-field disableRipple="true" floatLabel="always" class="labelWidth">
+                <input matInput placeholder="First Name" formControlName="firstName">
+                <mat-error *ngIf="enrollForm.controls.firstName.invalid">{{getErrorMessagefirstName()}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field disableRipple="true" floatLabel="always" class="labelWidth">
+                <input matInput placeholder="Last Name" formControlName="lastName">
+                <mat-error *ngIf="enrollForm.controls.lastName.invalid">{{getErrorMessagelastName()}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-2">
+            <mat-form-field floatLabel="always" class="labelWidth">
+                <input matInput placeholder="Alias" formControlName="alias" class="notAllowedEdit" readonly=true>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field floatLabel="always" class="labelWidth">
+                <input matInput formControlName="email">
+                <mat-placeholder class="placeholder">
+                    <mat-icon matSuffix>mail</mat-icon>Email ID
+                </mat-placeholder>
+                <mat-error *ngIf="enrollForm.controls.email.invalid">{{getErrorMessageEmail()}}</mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <mat-form-field floatLabel="always" class="labelWidth">
+                <mat-select formControlName="language_array" multiple>
+                    <mat-option *ngFor="let cboData of arrayLanguage" [value]="cboData.viewValue">
+                    {{cboData.viewValue}}
+                    </mat-option>
+                </mat-select>
+                <mat-placeholder class="placeholder">
+                    <mat-icon matSuffix>language</mat-icon>Prefered Language
+                </mat-placeholder>
+                <mat-error *ngIf="enrollForm.controls.language_array.invalid">{{getErrorMessageLanguage()}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field floatLabel="always" class="labelWidth">
+                <input matInput placeholder="City" formControlName="city">
+                <mat-error *ngIf="enrollForm.controls.city.invalid">{{getErrorMessageCity()}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-2">
+            <mat-form-field floatLabel="always" class="labelWidth">
+                <mat-select placeholder="State" formControlName="state">
+                    <mat-option *ngFor="let cboData of arrayState" [value]="cboData.viewValue">
+                    {{cboData.viewValue}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="enrollForm.controls.state.invalid">{{getErrorMessageState()}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field floatLabel="always" class="labelWidth">
+                <input matInput [textMask]="mask" minlength="12" formControlName="phoneNumber">
+                <mat-placeholder class="placeholder">
+                    <mat-icon matSuffix>phone</mat-icon>Phone Number
+                </mat-placeholder>
+                <mat-error class="contactError" *ngIf="enrollForm.controls.phoneNumber.invalid">{{getErrorMessagePhonenumber()}}</mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <mat-form-field floatLabel="always" class="labelWidth">
+                <mat-select formControlName="timezone">
+                    <mat-option *ngFor="let cboData of arrayTimeZone" [value]="cboData.viewValue">
+                    {{cboData.viewValue}}
+                    </mat-option>
+                </mat-select>
+                <mat-placeholder class="placeholder">
+                    <mat-icon matSuffix>access_time</mat-icon>Time Zone
+                </mat-placeholder>
+                <mat-error *ngIf="enrollForm.controls.timezone.invalid">{{getErrorMessageTimezone()}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field floatLabel="always" class="labelWidth">
+                <input matInput [bsConfig]="bsConfig"  [minDate]="minDateAvailablity" [isDisabled]="isDate" placement="top" bsDatepicker formControlName="availabilityStartDt">
+                <mat-placeholder class="placeholder">
+                    <mat-icon matSuffix>date_range</mat-icon>Available From
+                </mat-placeholder>
+                <mat-error *ngIf="enrollForm.controls.availabilityStartDt.invalid">{{getErrorMessageAvailabilityStart()}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-2 timeOff">
+                <mat-form-field floatLabel="always" class="labelWidth">
+                    <input matInput [bsConfig]="bsConfig"  [minDate]="minDateAvailablity" (onHidden)="getmaxAndMinDate()" placement="top" bsDatepicker formControlName="availabilityEndDate">
+                    <mat-placeholder class="placeholder" >
+                        <mat-icon matSuffix>date_range</mat-icon>Available To
+                    </mat-placeholder>
+                    <mat-error *ngIf="enrollForm.controls.availabilityEndDate.invalid">{{getErrorMessageAvailabilityEnd()}}</mat-error>
+                </mat-form-field>
+            </div>
+        <div class="col-md-3">
+            <mat-form-field floatLabel="always" class="labelWidth">
+                <input matInput [bsConfig]="bsConfig"  (onHidden)="vacationDates()" (click)="getmaxAndMinDate()" [isDisabled]="isDisabled" [minDate]="minDate" [maxDate]="maxDate"
+                    placement="left" bsDaterangepicker formControlName="vacationDt">
+                <mat-placeholder class="placeholder">
+                    <mat-icon matSuffix>date_range</mat-icon>Time Off
+                </mat-placeholder>
+                <mat-error *ngIf="enrollForm.controls.vacationDt.invalid">{{getErrorMessageVacation()}}</mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+</div>

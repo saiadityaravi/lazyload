@@ -1,0 +1,435 @@
+<div style="color:black">
+    <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="left" fxLayout.xs="column" fxFlexFill fxFlexAlign="start">
+        <div fxFlex="170px" fxFlexAlign="baseline">
+            <h2 ngClass.gt-xs="title" ngClass.xs="title1">
+                Member List
+            </h2>
+        </div>
+        <div fxFlex="calc(80vw - 650px)" fxLayoutAlign="left" fxFlexAlign="baseline" class="displayBlock">
+            <div [matTooltip]="filteredValue" [matTooltipClass]="'my-tooltip'" *ngIf="filteredValue!=''">
+                <div class="filterdSearchDiv">
+                    Search Criteria: {{filteredValue}}
+                </div>
+            </div>
+        </div>
+        <div fxFlex="3%" fxLayoutAlign="end" fxFlexAlign="baseline">
+            <div *ngIf="filteredValue!=''">
+                <div style="width:85%;cursor: pointer;" (click)="clearForm()">
+                    <mat-icon>
+                        close
+                    </mat-icon>
+                </div>
+            </div>
+        </div>
+        <div fxFlex=150px fxLayoutAlign="start" fxFlexAlign="baseline" class="quickSearchClass">
+            <mat-form-field floatLabel="always" style="width:100%">
+                <input matInput (keyup)="applyFilter($event.target.value)" matTooltip="Quick search">
+                <mat-icon matSuffix class="quickSearchIcon">search</mat-icon>
+            </mat-form-field>
+        </div>
+        <div fxFlex="40px" fxLayoutAlign="flex-end" fxFlexAlign="baseline" class="rowBottomIE">
+            <div (click)="openDiv(false)">
+                <div class="imgbackground text-center" [ngClass]="{'backroundWhite': clicked}">
+                    <i class="fa fa-filter"></i>
+                </div>
+            </div>
+        </div>
+        <div fxFlex="40px" fxLayoutAlign="flex-end" fxFlexAlign="baseline" class="rowBottomIE">
+            <div class="iconsrowBottom">
+                <button (click)="refresh()" class="refreshButton" matTooltip="refresh">
+                    <mat-icon>refresh</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div fxFlex="435px" fxLayoutAlign="flex-end" fxFlex.xs="10%" fxFlexAlign="baseline">
+            <div>
+                <mat-paginator [length]="length" (page)="onPaginateChange($event)" [pageSizeOptions]="[15, 50 , 75, 100, 200]"
+                    [pageSize]="offset" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+    <div fxLayout="row" class="rowBottom" fxLayoutAlign="begin center">
+        <div fxFlex=100% class="rowMinHeight">
+            <mat-table #table [dataSource]="dataSource" matSort style="max-height: calc(92vh - 155px);
+            overflow: auto;">
+                <!-- Position Column -->
+                <ng-container matColumnDef="memberId">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+                    <mat-cell *matCellDef="let member">
+                        {{member.memberId}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="firstName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.lastName}}, {{member.firstName}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="address">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Address
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let member">
+                        <div *ngIf="address!= isEmptyObject(member.address)  else dispNull">
+                           {{member.address.address1}},{{member.address.address2}}<br>
+                            {{member.address.city}},{{member.address.state}},{{member.address.zipCode}} </div>
+                        <ng-template #dispNull>
+                            <div>N/A</div>
+                        </ng-template>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="preferredLanguage">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Language
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.preferredLanguage}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="phoneNumber">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.phoneNumber | contactFormat}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="memberTimeZone">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Time zone
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.memberTimeZone}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="eligibilityStatus">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+                    <mat-cell *matCellDef="let member">
+                        <span [ngClass]="{'label-success' :member.eligibilityStatus=='Eligible', 'label-warning' :member.eligibilityStatus=='Pending', 'label-danger': member.eligibilityStatus=='Not Eligible'  }"
+                            class="label">{{member.eligibilityStatus}}</span> </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="gender">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Gender </mat-header-cell>
+                    <mat-cell *matCellDef="let member" [matTooltip]="member.gender">
+                        <i class="fa fa-{{member.gender  | lowercase }}"></i>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="ethnicity">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Ethnicity
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.ethnicity}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+                    <mat-cell *matCellDef="let member">
+                        <div>
+                            <span *ngFor="let action of member.actions; index as i">
+                                <button mat-button class="matbutton" [disabled]="member.actions[i].isDisables"
+                                    [ngClass]="{'flagColor' : (member.actions[i].iconName=='flag'&& !member.actions[i].isDisables)}"
+                                    *ngIf="(member.actions[i].iconName!='link'&& member.actions[i].iconName!='edit')"
+                                    [matTooltip]="member.actions[i].desc">
+                                    <mat-icon style="padding:4px !important" [attr.data-disabled]="member.actions[i].isDisables">{{member.actions[i].iconName}}</mat-icon>
+                                </button>
+                            </span>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+                <mat-row *matRowDef="let row;let i = index; columns: displayedColumns; " [attr.data-opened]="rowOpened"
+                    [attr.data-index]="i" matRipple class="member-row" [cdkDetailMemberRow]="row" [attr.data-row]="row.memberId"
+                    [cdkDetailRowTpl]="tpl" class="rowheight">
+                </mat-row>
+            </mat-table>
+            <ng-template #tpl let-member>
+                <div class="mat-row detail-row rowheight" [@detailExpand] style="overflow: hidden;position: relative !important;">
+                    <div fxFlex=100% fxLayoutAlign="center" fxFlexAlign="baseline">
+                        <div class="col-md-4">
+                            <div class="col-md-12" style="padding-bottom:25px">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;"
+                                    style="font-weight: 600;">Phonepal Name</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" style="margin-left:2%"
+                                    fxFlexAlign="baseline">{{assignedPhonepal.phonepal}}</div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">Lonliness</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" style="margin-left:2%"
+                                    fxFlexAlign="baseline">{{assignedPhonepal.lonliness}}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">Socialization</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" style="margin-left:2%"
+                                    fxFlexAlign="baseline">{{assignedPhonepal.socialization}}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">Mood</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" style="margin-left:2%"
+                                    fxFlexAlign="baseline">{{assignedPhonepal.mood}}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">Isolation
+                                    Score</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" style="margin-left:2%"
+                                    fxFlexAlign="baseline">{{assignedPhonepal.isolationScore}}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">Risk
+                                    Stratification</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" style="margin-left:2%"
+                                    fxFlexAlign="baseline">{{assignedPhonepal.riskStratification}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-12" style="padding-bottom:25px">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">Next
+                                    Scheduled Call Date</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" style="margin-left:2%"
+                                    fxFlexAlign="baseline">{{assignedPhonepal.nextScheduledCallDate | dateformat}}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">Referral
+                                    Source</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" style="margin-left:2%"
+                                    fxFlexAlign="baseline">
+                                    <div *ngIf="isEmptyObjectRefferal(assignedPhonepal) else sourceNull">
+                                        {{assignedPhonepal.referralSource}}
+                                    </div>
+                                    <ng-template #sourceNull>
+                                        <div>
+                                            N/A
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">
+                                    Referral Date</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" style="margin-left:2%"
+                                    fxFlexAlign="baseline">
+                                    <div *ngIf="isEmptyObjectRefferal(assignedPhonepal) else dateNull">
+                                        {{assignedPhonepal.referralDate
+                                        | dateformat}}
+                                    </div>
+                                    <ng-template #dateNull>
+                                        <div>
+                                            N/A
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">
+                                    Referral Name</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" fxFlexAlign="baseline">
+                                    <div *ngIf="isEmptyObjectRefferal(assignedPhonepal) else nameNull">
+                                        {{assignedPhonepal.refereeName}}
+                                    </div>
+                                    <ng-template #nameNull>
+                                        <div>
+                                            N/A
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">
+                                    Referral Contact</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" style="margin-left:2%"
+                                    fxFlexAlign="baseline">
+                                    <div *ngIf="isEmptyObjectRefferal(assignedPhonepal) else contactNull">
+                                        {{assignedPhonepal.referralContact}}
+                                    </div>
+                                    <ng-template #contactNull>
+                                        <div>
+                                            N/A
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">
+                                    Referral Email</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" style="margin-left:2%"
+                                    fxFlexAlign="baseline">
+                                    <div *ngIf="isEmptyObjectRefferal(assignedPhonepal) else emailNull">
+                                        {{assignedPhonepal.referralEmail}}
+                                    </div>
+                                    <ng-template #emailNull>
+                                        <div>
+                                            N/A
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-12" style="padding-bottom:25px">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">Email</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" style="margin-left:2%"
+                                    fxFlexAlign="baseline">{{assignedPhonepal.phonepalEmail}}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">Barrier</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" [matTooltip]="assignedPhonepal.barrier"
+                                    style="margin-left:2%" fxFlexAlign="baseline">{{assignedPhonepal.barrier |
+                                    truncate}}</div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">
+                                    Physical Activity</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" [matTooltip]="assignedPhonepal.physicalActivity"
+                                    style="margin-left:2%" fxFlexAlign="baseline">{{assignedPhonepal.physicalActivity |
+                                    truncate}}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">
+                                    Anthem Program</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" [matTooltip]="assignedPhonepal.anthemProgram"
+                                    style="margin-left:2%" fxFlexAlign="baseline">{{assignedPhonepal.anthemProgram |
+                                    truncate}}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">
+                                    Care Coordination</div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" [matTooltip]="assignedPhonepal.careCoordination"
+                                    style="margin-left:2%" fxFlexAlign="baseline">{{assignedPhonepal.careCoordination |
+                                    truncate}}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <div fxFlex=51% fxLayoutAlign="end" fxFlexAlign="baseline" style="font-weight: 600;">Community
+                                    Resources
+                                </div>
+                                <div fxFlex=47% style="margin-left:2%" fxLayoutAlign="start" [matTooltip]="assignedPhonepal.communityResources"
+                                    style="margin-left:2%" fxFlexAlign="baseline">{{assignedPhonepal.communityResources
+                                    | truncate}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
+<ng-template cdk-portal style="color: black">
+    <div class="overLayForm displayIE">
+        <div fxLayout="row" fxLayoutAlign="end" class="paddingRow1  " fxLayout.xs="column" fxLayoutWrap="wrap"
+            fxFlexAlign="baseline">
+            <div fxFlex="100%" fxLayoutAlign="end" fxFlexAlign="baseline">
+                <div (click)="openDiv(false)" style="cursor:pointer">
+                    <mat-icon>close</mat-icon>
+                </div>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end" class="paddingRow2" fxLayout.xs="column" fxLayoutWrap="wrap"
+            fxFlexAlign="baseline">
+            <form [formGroup]="searchcriteriaForm" class="formWidth">
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" style="width:100%">
+                            <input matInput placeholder="First Name" formControlName="firstName">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" style="width:100%">
+                            <input matInput placeholder="Last Name" formControlName="lastName">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3" formGroupName="address">
+                        <mat-form-field disableRipple="true" floatLabel="always" style="width:100%">
+                            <input matInput placeholder="City" formControlName="city">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3" formGroupName="address">
+                        <mat-form-field floatLabel="always" style="width:100%">
+                            <mat-select placeholder="State" formControlName="state">
+                                <mat-option *ngFor="let cboData of arrayState" [value]="cboData.viewValue">
+                                    {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field floatLabel="always" style="width:100%">
+                            <mat-select placeholder="Is Critical" formControlName="isCritical">
+                                <mat-option *ngFor="let cri of critical" [value]="cri">{{cri}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field floatLabel="always" style="width:100%" color="accent">
+                            <mat-select formControlName="memberTimeZone" multiple>
+                                <mat-option color="accent" *ngFor="let cboData of arrayTimeZone" [value]="cboData.viewValue">
+                                    {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-placeholder class="placeholder">
+                                Time Zone
+                            </mat-placeholder>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field floatLabel="always" style="width:100%" color="accent">
+                            <mat-select formControlName="eligibilityStatus">
+                                <mat-option color="accent" *ngFor="let cboData of arrayPhonepalStatus" [value]="cboData.viewValue">
+                                    {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-placeholder class="placeholder">
+                                Status
+                            </mat-placeholder>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" style="width:100%">
+                            <mat-select placeholder="Ethnicity" formControlName="ethnicity">
+                                <mat-option color="accent" *ngFor="let cboData of arrayEthnicity" [value]="cboData.viewValue">
+                                    {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" style="width:100%">
+                            <input matInput placement="top" [bsConfig]="bsConfig" [ngClass]="{'cursorNot':connectorDisable }"
+                                [attr.disabled]="connectorDisable" bsDaterangepicker formControlName="connectorNextCallDate">
+                            <mat-placeholder class="placeholder">
+                                My call date
+                            </mat-placeholder>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" style="width:100%">
+                            <input matInput placement="top" [bsConfig]="bsConfig" [ngClass]="{'cursorNot':phonepalDisable }"
+                                [attr.disabled]="phonepalDisable" bsDaterangepicker formControlName="phonepalNextCallDate">
+                            <mat-placeholder class="placeholder">
+                                Phonepal call date
+                            </mat-placeholder>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field floatLabel="always" style="width:100%" color="accent">
+                            <mat-select formControlName="preferredLanguage" multiple>
+                                <mat-option color="accent" *ngFor="let cboData of arrayLanguage" [value]="cboData.viewValue">
+                                    {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-placeholder class="placeholder">
+                                Prefered Language
+                            </mat-placeholder>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <button class="mat-raised-button mat-primary" (click)="clearForm()">Clear</button>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <button class="mat-raised-button mat-accent" (click)="openDiv(true)">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+<router-outlet></router-outlet>

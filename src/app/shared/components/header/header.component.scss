@@ -1,0 +1,110 @@
+// Importing custom Theme for Togetherness
+@import "../../../../sass_styles/_customTheme.scss";
+// Importing the style variables 
+@import "../../../../sass_styles/_variables.scss";
+
+.example-icon {
+    padding: 0 14px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.mat-toolbar.mat-primary {
+    height: 50px;
+    color: white; //background: $toolbar-color-primary;
+}
+
+.mat-toolbar-multiple-rows {
+    min-height: 50px;
+}
+
+.mat-toolbar-row {
+    height: 50px;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.badge {
+    top: 4px;
+    left: 50%;
+    padding: 0px;
+    width: 17px;
+    height: 15px;
+    font-size: 10px;
+    color: #ffffff;
+    line-height: 8px;
+    border-radius: 18%;
+    text-align: center;
+    position: absolute;
+}
+
+.badge-green {
+    background-color: $badge-green;
+    border: 4px solid $badge-green;
+}
+
+.badge-red {
+    background-color: $badge-red;
+    border: 4px solid $badge-red;
+}
+
+.badge-orange {
+    background-color: $badge-orange;
+    border: 4px solid $badge-orange;
+}
+
+.logged-in-user {
+    font-size: $font-size-medium;
+    margin-left: 60px;
+    margin-right: 2.5vw;
+}
+
+.mat-icon {
+    width: $toolbar-mat-icon-size;
+    height: $toolbar-mat-icon-size;
+    line-height: $toolbar-mat-icon-size;
+}
+
+.mat-icon-button {
+    line-height: $toolbar-mat-icon-size;
+}
+
+.material-icons {
+    font-size: $toolbar-mat-icon-size;
+}
+
+.header-logo {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 20px;
+    padding-right: 6px;
+    span {
+        font-weight: normal;
+    }
+}
+
+.btn-action {
+    padding-top: 6px;
+    .place_left {
+        float: left;
+    }
+    .place_right {
+        float: right;
+    }
+}
+.focus-overlay:hover{
+    line-height:49px !important; 
+    background-color:rgba(0, 0, 0, 0.15) !important;
+}
+
+.pointerEvents{
+    pointer-events: none !important;
+}
+
+.heightMenu{
+    height: inherit !important;
+}

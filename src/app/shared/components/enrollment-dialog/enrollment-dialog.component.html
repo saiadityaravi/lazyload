@@ -1,0 +1,23 @@
+<mat-card class="matPadding">
+    <div [class]="theme">
+        <mat-toolbar color="primary">
+            <mat-toolbar-row>
+                <div class="col-md-11 textColor">
+                    <span>Enroll</span>
+                </div>
+                <div class="col-md-1 pointerCursor">
+                    <mat-icon (click)=close()>close</mat-icon>
+                </div>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <app-phonepal-profile></app-phonepal-profile>
+        <div class="row matMargin">
+            <div class="col-md-6 text-center">
+                <button mat-raised-button (click)="close()">Cancel</button>
+            </div>
+            <div class="col-md-6 text-center">
+                <button mat-raised-button color="primary" (click)="enrollPhonepal()">Enroll</button>
+            </div>
+        </div>
+    </div>
+</mat-card>

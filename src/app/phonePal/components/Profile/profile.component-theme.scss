@@ -1,0 +1,30 @@
+@import '~@angular/material/theming';
+@mixin profilepage-theme($theme) {
+    // Extract whichever individual palettes you need from the theme.
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent); // Use mat-color to extract individual colors from a palette as necessary.
+    .container-fluid {
+        height: 100vh;
+        background-color: mat-color($primary);
+    }
+    .datesDiv {
+        background-color: mat-color($primary);
+        font-size: small;
+        text-align: right;
+        padding: 15px;
+        border-radius: 6px;
+    }
+
+    .matcardbackground{
+        background-color: mat-color($primary);
+    }
+
+    .mat-step-header .mat-step-icon{
+        background-color: mat-color($accent) ;
+        color: white;
+    }
+
+    .mat-pseudo-checkbox-checked .mat-pseudo-checkbox-indeterminate{
+        background-color: mat-color($accent) ;
+    }
+}

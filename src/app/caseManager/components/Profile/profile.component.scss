@@ -1,0 +1,30 @@
+@import '../../../../sass_styles/_variables.scss';
+.divMargin {
+    margin-top: 10vh;
+}
+
+.header-image {
+    background: linear-gradient(60deg, #ec407a, #d81b60);
+    background-size: cover;
+}
+
+.mat-card-avatar {
+    height: 65px !important;
+    width: 65px !important;
+    margin-top: -50px !important;
+    position: relative !important;
+    border-radius: 6px !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(233, 30, 99, .4);
+}
+
+.mat-form-field {
+    font-size: 1.11em !important;
+}
+
+.datesHeading {
+    font-weight: $font-weight-bold;
+}
+.mat-card-header-text{
+    margin-top:-20px !important;
+}

@@ -1,0 +1,22 @@
+// Importing custom Theme for Togetherness
+@import "../../../../sass_styles/_customTheme.scss";
+// Importing the style variables 
+@import "../../../../sass_styles/_variables.scss";
+
+.main-footer{
+    padding: 6px;
+    color: $color-dark;
+    background: $color-white;
+    font-size: $font-size-medium;
+    bottom: 0px;
+    position: fixed;
+    width: 100vw;
+}
+
+.footer {
+    position: relative;
+    margin-top: -150px; /* negative value of footer height */
+    height: 150px;
+    clear:both;
+    padding-top:20px;
+  } 

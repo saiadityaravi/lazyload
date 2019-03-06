@@ -1,0 +1,247 @@
+<div class="textColor">
+    <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="left" fxLayout.xs="column" fxFlexFill fxFlexAlign="start">
+        <div fxFlex=170px fxFlexAlign="baseline">
+            <h2 ngClass.gt-xs="title" ngClass.xs="title1">
+                Member List
+            </h2>
+        </div>
+        <div fxFlex=" calc(80vw - 650px)" fxLayoutAlign="left" fxFlexAlign="flex-end" fxFlexAlign="baseline" class="displayBlock">
+            <div [matTooltip]="filteredValue" [matTooltipClass]="'my-tooltip'" *ngIf="filteredValue!=''">
+                <div class="filterdSearchDiv">
+                    Search Criteria: {{filteredValue}}
+                </div>
+            </div>
+        </div>
+        <div fxFlex="3%" fxLayoutAlign="end" fxFlexAlign="baseline">
+            <div *ngIf="filteredValue!=''">
+                <div class="filterClose" (click)="clearForm()">
+                    <mat-icon>
+                        close
+                    </mat-icon>
+                </div>
+            </div>
+        </div>
+        <div fxFlex="150px" fxLayoutAlign="start" fxFlexAlign="baseline" class="quickSearchClass">
+            <mat-form-field floatLabel="always" style="width:100%">
+                <input matInput (keyup)="applyFilter($event.target.value)" matTooltip="Quick search">
+                <mat-icon matSuffix class="quickSearchIcon">search</mat-icon>
+            </mat-form-field>
+        </div>
+        <div fxFlex=40px fxLayoutAlign="center" fxFlexAlign="baseline" class="rowBottomIE">
+            <div (click)="openDiv(false)">
+                <div class="imgbackground text-center" [ngClass]="{'backroundWhite': clicked}">
+                        <i class="fa fa-filter"></i>
+                </div>
+            </div>
+        </div>
+        <div fxFlex=40px fxLayoutAlign="center" fxFlexAlign="baseline" class="rowBottomIE">
+            <div class="iconsrowBottom">
+                <button (click)="refresh()" class="refreshButton" matTooltip="refresh">
+                    <mat-icon>refresh</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div fxFlex=435px fxLayoutAlign="flex-end" fxFlex.xs="10%" fxFlexAlign="baseline">
+            <div>
+                <mat-paginator [length]="length"  (page)="onPaginateChange($event)" [pageSizeOptions]="[5, 10, 25]" [pageSize]="offset" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+    <div fxLayout="row" class="rowBottom" fxLayoutAlign="begin center">
+        <div fxFlex=100% class="rowMinHeight">
+            <mat-table #table [dataSource]="dataSource" matSort class="tableHeight">
+                <!-- Position Column -->
+                <ng-container matColumnDef="memberId">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> ID </mat-header-cell>
+                    <mat-cell *matCellDef="let member">
+                        {{member.memberId}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="firstName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.lastName}}, {{member.firstName}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="address">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> Address
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let member">
+                        <div *ngIf="address!= isEmptyObject(member.address)  else dispNull">
+                            {{member.address.city}},{{member.address.state}},{{member.address.zipCode}} </div>
+                        <ng-template #dispNull>
+                            <div>N/A</div>
+                        </ng-template>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="preferredLanguage">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> Language
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.preferredLanguage}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="phoneNumber">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> Phone Number
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.phoneNumber | contactFormat}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="memberTimeZone">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> Time zone
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.memberTimeZone}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="eligibilityStatus">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> Status </mat-header-cell>
+                    <mat-cell *matCellDef="let member">
+                        <span [ngClass]="{'label-success' :member.eligibilityStatus=='Eligible', 'label-warning' :member.eligibilityStatus=='Pending', 'label-danger': member.eligibilityStatus=='Not Eligible'  }"
+                            class="label">{{member.eligibilityStatus}}</span> </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="gender">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> Gender </mat-header-cell>
+                    <mat-cell *matCellDef="let member" [matTooltip]="member.gender">
+                        <i class="fa fa-{{member.gender  | lowercase }}"></i>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="ethnicity">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="rowOpened"> Ethnicity
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let member"> {{member.ethnicity}} </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+                <mat-row *matRowDef="let row;let i = index; columns: displayedColumns; " [attr.data-opened]="rowOpened"
+                    [attr.data-index]="i" matRipple class="member-row"  [attr.data-row]="row.memberId"
+                    class="rowheight">
+                </mat-row>
+            </mat-table>
+        </div>
+    </div>
+</div>
+<ng-template cdk-portal class="textColor">
+    <div class="overLayForm displayIE">
+        <div fxLayout="row" fxLayoutAlign="end" class="paddingRow1  " fxLayout.xs="column" fxLayoutWrap="wrap"
+            fxFlexAlign="baseline">
+            <div fxFlex="100%" fxLayoutAlign="end" fxFlexAlign="baseline">
+                <div (click)="openDiv(false)" style="cursor:pointer">
+                    <mat-icon>close</mat-icon>
+                </div>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end" class="paddingRow2" fxLayout.xs="column" fxLayoutWrap="wrap"
+            fxFlexAlign="baseline">
+            <form [formGroup]="searchcriteriaForm" class="formWidth">
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                            <input matInput placeholder="First Name" formControlName="firstName">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                            <input matInput placeholder="Last Name" formControlName="lastName">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3" formGroupName="address">
+                        <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                            <input matInput placeholder="City" formControlName="city">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3" formGroupName="address">
+                        <mat-form-field floatLabel="always" class="lableWidth">
+                            <mat-select placeholder="State" formControlName="state">
+                                <mat-option *ngFor="let cboData of arrayState" [value]="cboData.viewValue">
+                                {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+                <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field floatLabel="always" style="width:100%">
+                                        <mat-select placeholder="Is Critical" formControlName="isCritical">
+                                            <mat-option *ngFor="let cri of critical" [value]="cri">{{cri}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                               
+                            </div>
+                    <div class="col-md-3">
+                        <mat-form-field floatLabel="always" class="lableWidth" color="accent">
+                            <mat-select formControlName="memberTimeZone" multiple>
+                                <mat-option color="accent" *ngFor="let cboData of arrayTimeZone" [value]="cboData.viewValue">
+                                    {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-placeholder class="placeholder">
+                                Time Zone
+                            </mat-placeholder>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field floatLabel="always" class="lableWidth" color="accent">
+                            <mat-select formControlName="eligibilityStatus">
+                                <mat-option color="accent" *ngFor="let cboData of arrayPhonepalStatus" [value]="cboData.viewValue">
+                                    {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-placeholder class="placeholder">
+                                Status
+                            </mat-placeholder>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                            <mat-select placeholder="Ethnicity" formControlName="ethnicity">
+                                <mat-option color="accent" *ngFor="let cboData of arrayEthnicity" [value]="cboData.viewValue">
+                                {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                            <input matInput placement="top" [bsConfig]="bsConfig" [ngClass]="{'cursorNot':connectorDisable }"
+                                [attr.disabled]="connectorDisable" bsDaterangepicker formControlName="connectorNextCallDate">
+                            <mat-placeholder class="placeholder">
+                                My call date
+                            </mat-placeholder>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field disableRipple="true" floatLabel="always" class="lableWidth">
+                            <input matInput placement="top" [bsConfig]="bsConfig" [ngClass]="{'cursorNot':phonepalDisable }"
+                                [attr.disabled]="phonepalDisable" bsDaterangepicker formControlName="phonepalNextCallDate">
+                            <mat-placeholder class="placeholder">
+                                Phonepal call date
+                            </mat-placeholder>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field floatLabel="always" class="lableWidth" color="accent">
+                            <mat-select formControlName="preferredLanguage" multiple>
+                                <mat-option color="accent" *ngFor="let cboData of arrayLanguage" [value]="cboData.viewValue">
+                                {{cboData.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-placeholder class="placeholder">
+                                Prefered Language
+                            </mat-placeholder>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <button class="mat-raised-button mat-primary" (click)="clearForm()">Clear</button>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <button class="mat-raised-button mat-accent" (click)="openDiv(true)">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+<router-outlet></router-outlet>
